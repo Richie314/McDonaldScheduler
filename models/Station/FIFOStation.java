@@ -1,7 +1,7 @@
 package models.station;
 
 import java.security.InvalidParameterException;
-import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import models.task.Task;
 
@@ -11,7 +11,7 @@ public class FIFOStation
 extends Station
 {
     private int capacity;
-    private Queue<Task> queue;
+    private ConcurrentLinkedQueue<Task> queue = new ConcurrentLinkedQueue<>();
 
     public FIFOStation(Type type, int capacity)
     {
@@ -36,13 +36,10 @@ extends Station
                 "Cannot add a task that produces " + task.Type.getTypeName() + " to a station designed for " + producedProduct.getTypeName());
         }
 
-        synchronized(queue)
-        {
-            queue.add(task);
-        }
+        queue.offer(task);
     }
 
-    public synchronized boolean AddTaskIfAvaible(Task task)
+    public boolean AddTaskIfAvaible(Task task)
     {
         if (task == null || task.Type != producedProduct)
         {
@@ -59,15 +56,7 @@ extends Station
 
     public Task DoWork() throws Throwable
     {
-        Task task = null;
-
-        synchronized (queue)
-        {
-            if (!queue.isEmpty())
-            {
-                task = queue.remove();
-            }
-        }
+        Task task = queue.poll();
 
         if (task == null)
         {
@@ -83,7 +72,7 @@ extends Station
         throw new Exception("Feature not implemented");
     }
 
-    public synchronized boolean IsAvaible()
+    public boolean IsAvaible()
     {
         return queue.size() < capacity;
     }
