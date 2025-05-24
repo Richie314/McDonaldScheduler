@@ -1,8 +1,8 @@
-package models.Scheduler;
+package models.scheduler;
 
-import models.Receip.Receip;
-import models.Station.Station;
-import models.Task.*;
+import models.task.Task;
+import models.receip.Receip;
+import models.station.Station;
 
 import java.util.LinkedList;
 import java.lang.reflect.Type;
@@ -50,6 +50,7 @@ public abstract class Scheduler
             for (Task task = receip.First(); task != null; task = receip.Next(task))
             {
                 System.out.println("Task: " + task.GetSignature());
+                Schedule(task);
             }
         } catch (Throwable ex) {
             System.out.println("Exception happended!");

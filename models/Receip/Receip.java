@@ -1,9 +1,9 @@
-package models.Receip;
-import models.Task.Task;
-
+package models.receip;
 import java.lang.reflect.Type;
 
 import javax.naming.OperationNotSupportedException;
+
+import models.task.Task;
 
 public abstract class Receip
 {

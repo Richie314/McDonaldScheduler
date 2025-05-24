@@ -1,4 +1,4 @@
-package models.Task;
+package models.task;
 
 import java.lang.reflect.Type;
 
@@ -29,6 +29,7 @@ public class Task
      */
     public void DoWork() throws Throwable
     {
+        System.out.println("\tDoing task work...");
         // The actual work happens when we call newInstance();
 
         if (Input == null)
@@ -43,8 +44,8 @@ public class Task
 
     public String GetSignature()
     {
-        return (ResultClass != null ? "Created" : "Creating ") + 
-            ResultClass.getName() + 
+        return (Result != null ? "Created " : "Creating ") + 
+            Type.getTypeName() + 
             " from " +
             (Input != null ? Input.getClass().getName() : "nothing");
     }

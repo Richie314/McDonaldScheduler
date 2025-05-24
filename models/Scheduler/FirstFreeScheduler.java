@@ -1,6 +1,6 @@
-package models.Scheduler;
+package models.scheduler;
 
-import models.Task.Task;
+import models.task.Task;
 
 /**
  * A scheduer that enques the item in the first free station

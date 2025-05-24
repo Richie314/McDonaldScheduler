@@ -1,9 +1,9 @@
-package models.Station;
+package models.station;
 
 import java.lang.reflect.Type;
 import java.security.InvalidParameterException;
 
-import models.Task.Task;
+import models.task.Task;
 
 public abstract class Station
 {

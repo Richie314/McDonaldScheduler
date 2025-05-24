@@ -1,9 +1,11 @@
-package models.Station;
+package models.station;
 
 import java.security.InvalidParameterException;
 import java.util.Queue;
+
+import models.task.Task;
+
 import java.lang.reflect.Type;
-import models.Task.Task;
 
 public class FIFOStation
 extends Station

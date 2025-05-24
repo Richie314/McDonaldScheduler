@@ -1,19 +1,19 @@
 package simulation.simple;
 
-import models.Receip.Receip;
-import models.Receip.TwoStepReceip;
-import models.Scheduler.FirstFreeScheduler;
-import models.Scheduler.Scheduler;
-import models.Station.FIFOStation;
-import models.Station.Station;
+import models.receip.Receip;
+import models.receip.TwoStepReceip;
+import models.scheduler.FirstFreeScheduler;
+import models.scheduler.Scheduler;
+import models.station.FIFOStation;
+import models.station.Station;
 
-public class Simulation
+public class Main
 {
     /**
      * This is a 2 products simulation
      * Is used only for testing if the methods work and not how efficient they are
      */
-    public static void Main(String[] args)
+    public static void main(String[] args)
     {
         System.out.println("Running two products simulation...");
 
