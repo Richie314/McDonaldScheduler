@@ -22,21 +22,24 @@ public abstract class Receip
         }
     }
 
-    public Task First() throws Throwable
+    public Task First(int receipLength) throws Throwable
     {
-        return Next(null);
+        return Next(null, receipLength);
     }
 
     /**
      * Takes a task and returns the next one to be done
      */
-    public Task Next(Task task) throws Throwable
+    public Task Next(Task task, int receipLength) throws Throwable
     {
         LoadStagesIfNecessary();
 
         if (task == null)
         {
-            return new Task(Stages[0]);
+            int id = Task.reserveIdRange(receipLength);
+            Task outTask = new Task(Stages[0]);
+            outTask.setId(id);
+            return outTask;
         }
 
         boolean takeNext = false;
@@ -44,7 +47,7 @@ public abstract class Receip
         {
             if (takeNext)
             {
-                return new Task(stage, task.Result, task.ReceipDepht + 1);
+                return new Task(stage, task);
             }
 
             if (stage == task.Type)
@@ -58,4 +61,6 @@ public abstract class Receip
     }
 
     protected abstract void LoadStages();
+
+    public synchronized int StepsCount() { return Stages.length; }
 }

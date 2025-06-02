@@ -66,8 +66,11 @@ public abstract class Scheduler
     public void Schedule(Receip receip)
     {
         try {
-            for (Task task = receip.First(); task != null; task = receip.Next(task))
-            {
+            for (
+                Task task = receip.First(receip.StepsCount()); 
+                task != null; 
+                task = receip.Next(task, receip.StepsCount())
+            ) {
                 System.out.println(task);
                 
                 synchronized (task) {

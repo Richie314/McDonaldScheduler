@@ -22,17 +22,14 @@ extends IncrementalIdentifier
         super();
         this.Type = type;
         this.ResultClass = (Class<?>)type;
+        this.setId(Task.reserveIdRange(1));
     }
-    public Task(Type type, Object input)
+    public Task(Type type, Task completedTask)
     {
         this(type);
-        this.Input = input;
-    }
-    public Task(Type type, Object input, int receipDepth)
-    {
-        this(type);
-        this.ReceipDepht = receipDepth;
-        this.Input = input;
+        this.Input = completedTask.Result;
+        this.ReceipDepht = completedTask.ReceipDepht + 1;
+        this.setId(completedTask.getId() + 1);
     }
 
     /**

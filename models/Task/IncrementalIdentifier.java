@@ -5,15 +5,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class IncrementalIdentifier
 {
     private int id;
-    private static final AtomicInteger counter = new AtomicInteger();
+    private static final AtomicInteger lastId = new AtomicInteger(1);
 
-    public IncrementalIdentifier()
+    public static int reserveIdRange(int length)
     {
-        id = counter.incrementAndGet();
+        return lastId.getAndAdd(length);
     }
 
-    public int getId()
+    public synchronized int getId()
     {
-        return this.id;
+        return id;
+    }
+    public synchronized void setId(int newId)
+    {
+        id = newId;
     }
 }
