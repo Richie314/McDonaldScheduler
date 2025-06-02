@@ -62,14 +62,14 @@ public abstract class Scheduler
         try {
             for (Task task = receip.First(); task != null; task = receip.Next(task))
             {
-                System.out.println("Task " + task.GetSignature() + " created");
+                System.out.println(task);
                 
                 synchronized (task) {
                     Schedule(task);
                     task.wait();
                 }
 
-                System.out.println("Task " + task.GetSignature() + " completed");
+                System.out.println(task);
             }
         } catch (Throwable ex) {
             System.out.println("Exception happended!");

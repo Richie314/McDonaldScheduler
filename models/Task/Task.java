@@ -8,6 +8,7 @@ import java.lang.reflect.Type;
  * takes an Input and after doing work delivers a Result of a specified type.
  */
 public class Task
+extends IncrementalIdentifier
 {
     public Object Input = null;
     public Object Result = null;
@@ -16,6 +17,7 @@ public class Task
 
     public Task(Type type)
     {
+        super();
         this.Type = type;
         this.ResultClass = (Class<?>)type;
     }
@@ -50,9 +52,11 @@ public class Task
         notifyAll();
     }
 
-    public synchronized String GetSignature()
+    public synchronized String toString()
     {
-        return 
+        return
+            "#" +
+            this.getId() + 
             "{" + 
             (Input != null ? Input.getClass().getName() : "nothing") + 
             " >>> " + 
