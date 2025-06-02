@@ -5,7 +5,6 @@ import models.scheduler.FirstFreeScheduler;
 import models.scheduler.Scheduler;
 import models.station.FIFOStation;
 import models.station.Station;
-import java.lang.reflect.Type;
 
 public class Main
 {
@@ -19,11 +18,11 @@ public class Main
         System.out.println("--------------------------------------");
         System.out.println();
 
-        Station s1 = new FIFOStation(Product1.class, 1);
-        Station s2 = new FIFOStation(Product2.class, 1);
-        Station s3 = new FIFOStation(Product3.class, 1);
-        Station s4 = new FIFOStation(Product4.class, 1);
-        Station s5 = new FIFOStation(Product5.class, 1);
+        Station s1 = new FIFOStation(Product1.class, 2);
+        Station s2 = new FIFOStation(Product2.class,2);
+        Station s3 = new FIFOStation(Product3.class, 2);
+        Station s4 = new FIFOStation(Product4.class, 2);
+        Station s5 = new FIFOStation(Product5.class, 2);
 
         Scheduler sched = new FirstFreeScheduler();
         sched.AddStation(s1);
@@ -44,6 +43,8 @@ public class Main
         sched.Schedule(r3);
         sched.Schedule(r4);
         sched.Schedule(r5);
+        sched.Schedule(r6);
+        sched.Schedule(r6);
         sched.Schedule(r6);
     }
 }

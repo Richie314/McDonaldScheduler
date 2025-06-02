@@ -15,6 +15,8 @@ extends IncrementalIdentifier
     public Type Type;
     private Class<?> ResultClass;
 
+    public int ReceipDepht = 0;
+
     public Task(Type type)
     {
         super();
@@ -24,6 +26,12 @@ extends IncrementalIdentifier
     public Task(Type type, Object input)
     {
         this(type);
+        this.Input = input;
+    }
+    public Task(Type type, Object input, int receipDepth)
+    {
+        this(type);
+        this.ReceipDepht = receipDepth;
         this.Input = input;
     }
 
@@ -52,9 +60,20 @@ extends IncrementalIdentifier
         notifyAll();
     }
 
+    private String getPadding()
+    {
+        String p = "";
+        for (int i = 0; i < this.ReceipDepht; i++)
+        {
+            p += "  ";
+        }
+        return p;
+    }
+
     public synchronized String toString()
     {
         return
+            getPadding() +
             "#" +
             this.getId() + 
             "{" + 
