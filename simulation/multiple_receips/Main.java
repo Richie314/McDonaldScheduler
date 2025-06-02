@@ -37,7 +37,7 @@ public class Main
         Receip r3 = new SingleStepReceip(Product4.class);
         Receip r4 = new SingleStepReceip(Product5.class);
         Receip r5 = new TwoStepReceip(Product4.class, Product5.class);
-        Receip r6 = new ArrayReceip(new Type[] { Product3.class, Product4.class, Product5.class });
+        Receip r6 = new ArrayReceip(Product3.class, Product4.class, Product5.class);
 
         sched.Schedule(r1);
         sched.Schedule(r2);
