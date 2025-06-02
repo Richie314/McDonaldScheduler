@@ -38,8 +38,5 @@ public class Main
         System.out.println();
         System.out.println("--------------------------------------");
         System.out.println("Simulation ended");
-
-        System.out.println("Removing all secondary threads");
-        //sched.ShutStations();
     }
 }

@@ -80,7 +80,7 @@ public abstract class Scheduler
         } catch (Throwable ex) {
             System.out.println("Exception happended!");
             System.out.println(ex.getMessage());
-            System.out.println(ex.getCause());
+            System.out.println(ex.getStackTrace());
         }
     }
 }
