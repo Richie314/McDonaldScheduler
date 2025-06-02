@@ -62,16 +62,10 @@ extends Thread
                 Task exceutedTask = this.DoWork();
                 if (exceutedTask == null)
                 {
-                    //wait(100);
                     continue;
                 }
                 notifyAll();
             }
         } catch (Throwable ex) { }
-    }
-
-    public void ShutDown()
-    {
-        this.interrupt();
     }
 }

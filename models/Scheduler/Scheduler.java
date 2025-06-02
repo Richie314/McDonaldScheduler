@@ -20,9 +20,15 @@ public abstract class Scheduler
             throw new InvalidParameterException("Parameter 'station' was null");
         }
 
+        if (station.isAlive())
+        {
+            throw new InvalidParameterException("Station already in use. Cannot add to this scheduler.");
+        }
+
         synchronized (stations)
         {
             stations.add(station);
+            station.setDaemon(true);
             station.start();
         }
     }
@@ -33,7 +39,7 @@ public abstract class Scheduler
         {
             for (Station station : stations)
             {
-                station.ShutDown();
+                station.interrupt();
             }
             stations.clear();
         }
