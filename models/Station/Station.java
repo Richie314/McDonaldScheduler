@@ -19,34 +19,17 @@ extends Thread
      * Adds a Task (of any type) to the station
      * @param task
      */
-    public abstract void AddTask(Task task) throws InvalidParameterException;
+    public abstract void AddTask(Task task) 
+    throws InvalidParameterException;
 
-    public abstract boolean AddTaskIfAvaible(Task task);
-
-    public /*synchronized*/ void AddTaskWhenAvaible(Task task) throws InterruptedException
-    {
-        while (!AddTaskIfAvaible(task))
-        {
-            wait();
-        }
-    }
+    public abstract void AddTaskWhenAvaible(Task task) 
+    throws InvalidParameterException, InterruptedException;
 
     /**
      * Does a minumum work.
      * @return the completed task
      */
     public abstract Task DoWork() throws Throwable;
-
-    /**
-     * Does a minumum work.
-     * If supported, executes one or more Tasks, returning all of them
-     * @return
-     */
-    public abstract Task[] ParallelWork() throws Exception;
-
-    public abstract boolean IsAvaible();
-
-    public boolean IsFull() { return !this.IsAvaible(); }
 
     public void run()
     {
@@ -59,12 +42,14 @@ extends Thread
         try {
             while (true)
             {
-                Task exceutedTask = this.DoWork();
-                if (exceutedTask == null)
-                {
-                    continue;
-                }
-                notifyAll();
+                //Task exceutedTask = 
+                this.DoWork();
+                //if (exceutedTask == null)
+                //{
+                //    continue;
+                //}
+                //notify();
+                Thread.sleep(100);
             }
         } catch (Throwable ex) { }
     }

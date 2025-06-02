@@ -18,7 +18,7 @@ extends Scheduler
         var stationsForThisTask = this.StationsProducing(task.Type);
         if (stationsForThisTask.size() == 0)
         {
-            System.out.println("Could not schedule task producing " + task.Type.getTypeName() + "!");
+            System.err.println("Could not schedule task producing " + task.Type.getTypeName() + "!");
             return;
         }
         

@@ -19,11 +19,11 @@ public class Main
         System.out.println("--------------------------------------");
         System.out.println();
 
-        Station s1 = new FIFOStation(Product1.class, 5);
-        Station s2 = new FIFOStation(Product2.class, 3);
-        Station s3 = new FIFOStation(Product3.class, 2);
-        Station s4 = new FIFOStation(Product4.class, 2);
-        Station s5 = new FIFOStation(Product5.class, 2);
+        Station s1 = new FIFOStation(Product1.class, 1);
+        Station s2 = new FIFOStation(Product2.class, 1);
+        Station s3 = new FIFOStation(Product3.class, 1);
+        Station s4 = new FIFOStation(Product4.class, 1);
+        Station s5 = new FIFOStation(Product5.class, 1);
 
         Scheduler sched = new FirstFreeScheduler();
         sched.AddStation(s1);

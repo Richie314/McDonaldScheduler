@@ -2,14 +2,15 @@ package models.station;
 
 import models.task.Task;
 import java.security.InvalidParameterException;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Queue;
+import java.util.LinkedList;
 import java.lang.reflect.Type;
 
 public class FIFOStation
 extends Station
 {
     private int capacity;
-    private ConcurrentLinkedQueue<Task> queue = new ConcurrentLinkedQueue<>();
+    private Queue<Task> queue = new LinkedList<>();
 
     public FIFOStation(Type type, int capacity)
     {
@@ -21,7 +22,7 @@ extends Station
         this.capacity = capacity;
     }
 
-    public void AddTask(Task task)
+    public synchronized void AddTask(Task task)
     {
         if (task == null)
         {
@@ -37,23 +38,45 @@ extends Station
         queue.offer(task);
     }
 
-    public boolean AddTaskIfAvaible(Task task)
+    public void AddTaskWhenAvaible(Task task)
+    throws InvalidParameterException, InterruptedException
     {
-        if (task == null || task.Type != producedProduct)
+        if (task == null)
         {
-            return false;
+            throw new InvalidParameterException("Parameter 'task' was null");
         }
 
-        if (!IsAvaible())
+        if (task.Type != producedProduct)
         {
-            return false;
+            throw new InvalidParameterException(
+                "Cannot add a task that produces " + 
+                task.Type.getTypeName() + 
+                " to a station designed for " + 
+                producedProduct.getTypeName()
+            );
         }
-        return queue.add(task);
+
+        while (!isAlive())
+        {
+            wait(500);
+        }
+        synchronized (queue)
+        {
+            if ((queue.size() < capacity))
+            {
+                queue.offer(task);
+                return;
+            }
+        }
     }
 
     public Task DoWork() throws Throwable
     {
-        Task task = queue.poll();
+        Task task = null;
+        synchronized (queue)
+        {
+            task = queue.poll();
+        }
 
         if (task == null)
         {
@@ -62,15 +85,5 @@ extends Station
 
         task.DoWork();
         return task;
-    }
-
-    public Task[] ParallelWork() throws Exception
-    {
-        throw new Exception("Feature not implemented");
-    }
-
-    public boolean IsAvaible()
-    {
-        return (queue.size() < capacity) && isAlive();
     }
 }
