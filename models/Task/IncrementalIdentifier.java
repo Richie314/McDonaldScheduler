@@ -1,18 +1,15 @@
 package models.task;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class IncrementalIdentifier
 {
     private int id;
-    private static int counter = 0;
-
-    private static synchronized int generateId()
-    {
-        return ++counter;
-    }
+    private static final AtomicInteger counter = new AtomicInteger();
 
     public IncrementalIdentifier()
     {
-        id = generateId();
+        id = counter.incrementAndGet();
     }
 
     public int getId()
