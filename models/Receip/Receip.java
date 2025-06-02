@@ -35,6 +35,7 @@ public abstract class Receip
 
         if (task == null)
         {
+            System.out.println("First task of receip: need to build " + Stages[0].getTypeName());
             return new Task(Stages[0]);
         }
 
@@ -43,6 +44,7 @@ public abstract class Receip
         {
             if (takeNext)
             {
+                System.out.println("Creating task that produces " + stage.getTypeName() + " from " + task.Type.getTypeName());
                 return new Task(stage, task.Result);
             }
 
@@ -51,6 +53,7 @@ public abstract class Receip
                 // The task was producing the current product
                 // We now have to make the next one using this as input parameter
                 takeNext = true;
+                System.out.println(stage.getTypeName() + " produced");
             }
         }
         return null;

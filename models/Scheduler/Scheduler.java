@@ -23,6 +23,19 @@ public abstract class Scheduler
         synchronized (stations)
         {
             stations.add(station);
+            station.start();
+        }
+    }
+
+    public void ShutStations()
+    {
+        synchronized (stations)
+        {
+            for (Station station : stations)
+            {
+                station.ShutDown();
+            }
+            stations.clear();
         }
     }
 
@@ -49,8 +62,14 @@ public abstract class Scheduler
         try {
             for (Task task = receip.First(); task != null; task = receip.Next(task))
             {
-                System.out.println("Task: " + task.GetSignature());
-                Schedule(task);
+                System.out.println("Task " + task.GetSignature() + " created");
+                
+                synchronized (task) {
+                    Schedule(task);
+                    task.wait();
+                }
+
+                System.out.println("Task " + task.GetSignature() + " completed");
             }
         } catch (Throwable ex) {
             System.out.println("Exception happended!");

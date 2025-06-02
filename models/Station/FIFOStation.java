@@ -1,10 +1,8 @@
 package models.station;
 
+import models.task.Task;
 import java.security.InvalidParameterException;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
-import models.task.Task;
-
 import java.lang.reflect.Type;
 
 public class FIFOStation
@@ -46,12 +44,11 @@ extends Station
             return false;
         }
 
-        if (queue.size() >= capacity)
+        if (!IsAvaible())
         {
             return false;
         }
-        queue.add(task);
-        return true;
+        return queue.add(task);
     }
 
     public Task DoWork() throws Throwable
@@ -74,6 +71,6 @@ extends Station
 
     public boolean IsAvaible()
     {
-        return queue.size() < capacity;
+        return (queue.size() < capacity) && isAlive();
     }
 }

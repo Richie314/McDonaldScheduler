@@ -1,18 +1,20 @@
 package simulation.simple;
-import java.util.Optional;
 
 public class Product1 {
     public int x;
-    public Product1(Optional<Integer> x) throws InterruptedException
+    public Product1() throws InterruptedException
     {
-        System.out.println("Starting creation of Product1");
-        wait(1000);
-        if (x.isPresent())
+        this((int) (Math.random() * 100000));
+    }
+    public Product1(int x) throws InterruptedException
+    {
+        System.out.println("\tStarting creation of Product1");
+        for (int i = 0; i < 5; i++)
         {
-            this.x = x.get();
-        } else {
-            this.x = (int) (Math.random() * 100000);
+            Thread.sleep(1000);
+            System.out.println("\tProduct1: " + (i+1)*20 + "%");
         }
-        System.out.println("Created Product1 with x = " + x);
+        this.x = x;
+        System.out.println("\tCreated Product1 with x = " + x);
     }
 }

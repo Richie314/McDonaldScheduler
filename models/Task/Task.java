@@ -1,5 +1,6 @@
 package models.task;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Type;
 
 /**
@@ -16,7 +17,7 @@ public class Task
     public Task(Type type)
     {
         this.Type = type;
-        this.ResultClass = type.getClass();
+        this.ResultClass = (Class<?>)type;
     }
     public Task(Type type, Object input)
     {
@@ -27,26 +28,38 @@ public class Task
     /**
      * Generates the result from the input
      */
-    public void DoWork() throws Throwable
+    public synchronized void DoWork() throws Throwable
     {
-        System.out.println("\tDoing task work...");
+        // System.out.println("\tDoing task work...");
         // The actual work happens when we call newInstance();
 
-        if (Input == null)
-        {
-            Result = ResultClass.getConstructor().newInstance();
-        } else {
-            Result = ResultClass
-                .getConstructor(Input.getClass())
-                .newInstance(Input); 
-        }
+        Class<?>[] constructor_parameters_types = 
+            (Input == null) ? 
+                (new Class<?>[0]) : 
+                new Class<?>[] { Input.getClass() };
+
+        Object[] constructor_parameters =
+            (Input == null) ? 
+                (new Object[0]) : 
+                new Object[] { Input };
+
+        Constructor<?> builder = ResultClass.getConstructor(constructor_parameters_types);
+        // System.out.println("\tUsing builder " + builder.toString());
+
+        Result = builder.newInstance(constructor_parameters);
+        notifyAll();
     }
 
-    public String GetSignature()
+    public synchronized String GetSignature()
     {
-        return (Result != null ? "Created " : "Creating ") + 
+        return 
+            "{" + 
+            (Input != null ? Input.getClass().getName() : "nothing") + 
+            " >>> " + 
             Type.getTypeName() + 
-            " from " +
-            (Input != null ? Input.getClass().getName() : "nothing");
+            " " + 
+            (Result != null ? "(Completed)" : "(Running)") + 
+            "}"
+        ;
     }
 }
