@@ -60,14 +60,17 @@ extends Station
         {
             wait(500);
         }
-        synchronized (queue)
-        {
-            if ((queue.size() < capacity))
+        do {
+            synchronized (queue)
             {
-                queue.offer(task);
-                return;
+                if (queue.size() < capacity)
+                {
+                    queue.offer(task);
+                    return;
+                }
             }
-        }
+            wait(50);
+        } while (true);
     }
 
     public Task DoWork() throws Throwable
