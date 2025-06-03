@@ -78,7 +78,7 @@ public abstract class Scheduler
                     task.wait();
                 }
 
-                System.out.println(task);
+                //System.out.println(task);
             }
         } catch (Throwable ex) {
             System.out.println("Exception happended!");

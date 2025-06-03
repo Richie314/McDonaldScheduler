@@ -3,14 +3,14 @@ package models.station;
 import models.task.Task;
 import java.security.InvalidParameterException;
 import java.util.Queue;
-import java.util.LinkedList;
+import java.util.ArrayDeque;
 import java.lang.reflect.Type;
 
 public class FIFOStation
 extends Station
 {
     private int capacity;
-    private Queue<Task> queue = new LinkedList<>();
+    private Queue<Task> queue;
 
     public FIFOStation(Type type, int capacity)
     {
@@ -20,6 +20,7 @@ extends Station
             throw new InvalidParameterException("Parameter 'capacity' was <= 0");
         }
         this.capacity = capacity;
+        queue = new ArrayDeque<>(capacity);
     }
 
     public synchronized void AddTask(Task task)
@@ -58,7 +59,7 @@ extends Station
 
         while (!isAlive())
         {
-            wait(500);
+            Thread.sleep(500);
         }
         do {
             synchronized (queue)
@@ -69,7 +70,7 @@ extends Station
                     return;
                 }
             }
-            wait(50);
+            Thread.sleep(500);
         } while (true);
     }
 

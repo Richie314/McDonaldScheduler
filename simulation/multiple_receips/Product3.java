@@ -4,6 +4,6 @@ public class Product3
 {
     public Product3() throws InterruptedException
     {
-        Thread.sleep(3000);
+        Thread.sleep(1000);
     }
 }
