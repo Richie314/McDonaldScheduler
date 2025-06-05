@@ -10,7 +10,7 @@ public class FIFOStation
 extends Station
 {
     private int capacity;
-    private Queue<Task> queue;
+    protected Queue<Task> queue;
 
     public FIFOStation(Type type, int capacity)
     {
@@ -33,7 +33,21 @@ extends Station
         if (task.Type != producedProduct)
         {
             throw new InvalidParameterException(
-                "Cannot add a task that produces " + task.Type.getTypeName() + " to a station designed for " + producedProduct.getTypeName());
+                "Cannot add a task that produces " + 
+                task.Type.getTypeName() + 
+                " to a station designed for " + 
+                producedProduct.getTypeName()
+            );
+        }
+
+        if (!isAlive())
+        {
+            throw new IllegalStateException("Cannot add task now: station is not running!");
+        }
+
+        if (queue.size() >= capacity)
+        {
+            throw new IllegalStateException("Cannot add task now: station is full!");
         }
 
         queue.offer(task);

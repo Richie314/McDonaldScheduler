@@ -14,13 +14,14 @@ extends Thread
     {
         this.producedProduct = type;
     }
+    public static boolean Debug = true;
 
     /**
      * Adds a Task (of any type) to the station
      * @param task
      */
     public abstract void AddTask(Task task) 
-    throws InvalidParameterException;
+    throws InvalidParameterException, IllegalStateException;
 
     public abstract void AddTaskWhenAvaible(Task task) 
     throws InvalidParameterException, InterruptedException;
@@ -33,12 +34,15 @@ extends Thread
 
     public void run()
     {
-        System.out.println(
-            "Station " + 
-            getClass().getSimpleName() + 
-            " (" + producedProduct.getTypeName() + ") " + 
-            "starting..."
-        );
+        if (Debug)
+        {
+            System.out.println(
+                "Station " + 
+                getClass().getSimpleName() + 
+                " (" + producedProduct.getTypeName() + ") " + 
+                "starting..."
+            );
+        }
         try {
             while (true)
             {

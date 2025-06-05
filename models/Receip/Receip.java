@@ -3,6 +3,7 @@ import java.lang.reflect.Type;
 
 import javax.naming.OperationNotSupportedException;
 
+import models.task.PriorityTask;
 import models.task.Task;
 
 public abstract class Receip
@@ -22,22 +23,24 @@ public abstract class Receip
         }
     }
 
-    public Task First(int receipLength) throws Throwable
+    public Task First(int receipLength, int priority) throws Throwable
     {
-        return Next(null, receipLength);
+        return Next(null, receipLength, priority);
     }
 
     /**
      * Takes a task and returns the next one to be done
      */
-    public Task Next(Task task, int receipLength) throws Throwable
+    public Task Next(Task task, int receipLength, int priority) throws Throwable
     {
         LoadStagesIfNecessary();
 
         if (task == null)
         {
             int id = Task.reserveIdRange(receipLength);
-            Task outTask = new Task(Stages[0]);
+            Task outTask = priority != 0 ? 
+                new PriorityTask(Stages[0], priority) : 
+                new Task(Stages[0]);
             outTask.setId(id);
             return outTask;
         }
@@ -47,6 +50,10 @@ public abstract class Receip
         {
             if (takeNext)
             {
+                if (priority != 0)
+                {
+                    return new PriorityTask(stage, task, priority);
+                }
                 return new Task(stage, task);
             }
 

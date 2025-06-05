@@ -10,6 +10,8 @@ import java.security.InvalidParameterException;
 
 public abstract class Scheduler
 {
+    public static boolean Debug = true;
+
     private LinkedList<Station> stations = new LinkedList<>();
 
     public void AddStation(Station station) 
@@ -63,15 +65,18 @@ public abstract class Scheduler
 
     public abstract void Schedule(Task task);
 
-    public void Schedule(Receip receip)
+    public void Schedule(Receip receip, int priority)
     {
         try {
             for (
-                Task task = receip.First(receip.StepsCount()); 
+                Task task = receip.First(receip.StepsCount(), priority); 
                 task != null; 
-                task = receip.Next(task, receip.StepsCount())
+                task = receip.Next(task, receip.StepsCount(), priority)
             ) {
-                System.out.println(task);
+                if (Debug)
+                {
+                    System.out.println(task);
+                }
                 
                 synchronized (task) {
                     Schedule(task);
@@ -89,5 +94,10 @@ public abstract class Scheduler
                 System.err.println("\t#" + i + ": " + trace[i]);
             }
         }
+    }
+
+    public void Schedule(Receip receip)
+    {
+        Schedule(receip, 0);
     }
 }

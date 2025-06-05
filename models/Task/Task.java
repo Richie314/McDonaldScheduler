@@ -57,7 +57,7 @@ extends IncrementalIdentifier
         notifyAll();
     }
 
-    private String getPadding()
+    protected String getPadding()
     {
         String p = "";
         for (int i = 0; i < this.ReceipDepht; i++)
@@ -67,6 +67,7 @@ extends IncrementalIdentifier
         return p;
     }
 
+    @Override
     public synchronized String toString()
     {
         return
