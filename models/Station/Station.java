@@ -3,6 +3,7 @@ package models.station;
 import java.lang.reflect.Type;
 import java.lang.Thread;
 import java.security.InvalidParameterException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import models.task.Task;
 
@@ -10,8 +11,16 @@ public abstract class Station
 extends Thread
 {
     public Type producedProduct;
+    private AtomicInteger completedTasks;
+
+    public int completedTasks()
+    {
+        return this.completedTasks.get();
+    }
+
     public Station(Type type)
     {
+        this.completedTasks = new AtomicInteger(0);
         this.producedProduct = type;
     }
     public static boolean Debug = true;
@@ -32,6 +41,12 @@ extends Thread
      */
     public abstract Task DoWork() throws Throwable;
 
+    /**
+     * Returns the number of tasks the station is currently handling
+     * @return an int with the task count
+     */
+    public abstract int TaskCount();
+
     public void run()
     {
         if (Debug)
@@ -46,8 +61,9 @@ extends Thread
         try {
             while (true)
             {
-                //Task exceutedTask = 
-                this.DoWork();
+                Task exceutedTask = this.DoWork();
+                if (exceutedTask != null)
+                    this.completedTasks.getAndIncrement();
                 //if (exceutedTask == null)
                 //{
                 //    continue;

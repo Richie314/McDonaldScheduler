@@ -1,72 +1,35 @@
 package simulation.priority;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 import models.receip.*;
 import models.scheduler.FirstFreeScheduler;
+import models.scheduler.RandomScheduler;
+import models.scheduler.RoundRobinScheduler;
 import models.scheduler.Scheduler;
 import models.station.PriorityStation;
 import models.station.Station;
 
 public class Main
 {
-    private static void sim1()
+    private static void complexSim(Scheduler sched, int stationsPerType, long timeout)
     {
-        Station s1 = new PriorityStation(Product1.class, 3);
-
-        Scheduler sched = new FirstFreeScheduler();
-        sched.AddStation(s1);
-
-        Receip shortReceip = new SingleStepReceip(Product1.class);
-
-        int RECEIP_COUNT = 10;
-
-        Thread[] threads = new Thread[] {
-            new Thread(() -> {
-                for (int i = 0; i < RECEIP_COUNT; i++)
-                {
-                    sched.Schedule(shortReceip);
-                }
-                System.out.println("Low priority (short) receips ended");
-            }),
-            new Thread(() -> {
-                for (int i = 0; i < RECEIP_COUNT; i++)
-                {
-                    sched.Schedule(shortReceip, i + 1);
-                }
-                System.out.println("Incremental priority (short) receips ended");
-            }),
-            new Thread(() -> {
-                for (int i = 0; i < RECEIP_COUNT; i++)
-                {
-                    sched.Schedule(shortReceip, RECEIP_COUNT+10);
-                }
-                System.out.println("High priority (short) receips ended");
-            })
-        };
-
-        for (Thread thread : threads)
+        List<Station> stations = new ArrayList<>();
+        for (int i = 0; i < stationsPerType; i++)
         {
-            thread.start();
+            stations.add(new PriorityStation(Product1.class, 5));
+            stations.add(new PriorityStation(Product2.class, 5));
+            stations.add(new PriorityStation(Product3.class, 5));
+            stations.add(new PriorityStation(Product4.class, 5));
         }
-        for (Thread thread : threads)
+        for (var station : stations)
         {
-            try {
-                thread.join();
-            } catch (InterruptedException ex) {}
+            sched.AddStation(station);
         }
-    }
-    
-    private static void sim2()
-    {
-        Station s1 = new PriorityStation(Product1.class, 3);
-        Station s2 = new PriorityStation(Product2.class, 3);
-        Station s3 = new PriorityStation(Product3.class, 3);
-        Station s4 = new PriorityStation(Product4.class, 3);
-
-        Scheduler sched = new FirstFreeScheduler();
-        sched.AddStation(s1);
-        sched.AddStation(s2);
-        sched.AddStation(s3);
-        sched.AddStation(s4);
 
         Receip longReceip = new ArrayReceip(
             Product1.class, 
@@ -76,55 +39,77 @@ public class Main
         );
 
         int RECEIP_COUNT = 10;
+        List<Thread> threads = new ArrayList<>();
+        CountDownLatch latch = new CountDownLatch(3 * RECEIP_COUNT);
 
-        Thread[] threads = new Thread[] {
-            new Thread(() -> {
-                for (int i = 0; i < RECEIP_COUNT; i++)
-                {
-                    sched.Schedule(longReceip);
-                }
-                System.out.println("Low priority (long) receips ended");
-            }),
-            new Thread(() -> {
-                for (int i = 0; i < RECEIP_COUNT; i++)
-                {
-                    sched.Schedule(longReceip, i + 1);
-                }
-                System.out.println("Incremental priority (long) receips ended");
-            }),
-            new Thread(() -> {
-                for (int i = 0; i < RECEIP_COUNT; i++)
-                {
-                    sched.Schedule(longReceip, RECEIP_COUNT+10);
-                }
-                System.out.println("High priority (long) receips ended");
-            })
-        };
+        for (int i = 0; i < RECEIP_COUNT; i++)
+        {
+            // Low priority
+            threads.add(new Thread(() -> {
+                sched.Schedule(longReceip);
+                latch.countDown();
+            }));
 
+            // Incremental priority
+            int priority = 1 + i;
+            threads.add(new Thread(() -> {
+                sched.Schedule(longReceip, priority);
+                latch.countDown();
+            }));
+
+            // High priority
+            threads.add(new Thread(() -> {
+                sched.Schedule(longReceip, RECEIP_COUNT + 10);
+                latch.countDown();
+            }));
+        }
+
+        Collections.shuffle(threads);
+        long simStart = System.currentTimeMillis();
         for (Thread thread : threads)
         {
             thread.start();
         }
-        for (Thread thread : threads)
+
+        try {
+            if (timeout > 0)
+                latch.await(250, TimeUnit.SECONDS);
+            else
+                latch.await();
+        } catch (InterruptedException ex) {}
+
+        float duration = (float)(System.currentTimeMillis() - simStart) / 1000;
+        System.out.println("Simulation ended in " + duration + " s");
+        for (var station : stations)
         {
-            try {
-                thread.join();
-            } catch (InterruptedException ex) {}
+            System.out.println("\t" + station.producedProduct.getTypeName() + ": " + station.completedTasks());
         }
     }
+
+    private static void sim2() { complexSim(new FirstFreeScheduler(), 3, 0); }
+    
+    private static void sim3() { complexSim(new RoundRobinScheduler(), 3, 0); }
+
+    private static void sim4() { complexSim(new RandomScheduler(), 3, 200); }
+
     public static void main(String[] args)
     {
         Scheduler.Debug = false;
         Station.Debug = false;
-
-        System.out.println("Running one product simulation...");
-        System.out.println("--------------------------------------");
-        sim1();
-        System.out.println();
         
-        System.out.println("Running four products simulation...");
+        System.out.println("Running four products simulation (basic scheduling)...");
         System.out.println("--------------------------------------");
         sim2();
+        System.out.println();
+
+        System.out.println("Running four products simulation (Round Robin scheduling)...");
+        System.out.println("--------------------------------------");
+        sim3();
+        System.out.println();
+
+        System.out.println("Running four products simulation (Random scheduling)...");
+        System.out.println("--------------------------------------");
+        sim4();
         System.out.println();
     }
 }

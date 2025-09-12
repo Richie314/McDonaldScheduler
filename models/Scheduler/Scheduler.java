@@ -4,7 +4,9 @@ import models.task.Task;
 import models.receip.Receip;
 import models.station.Station;
 
-import java.util.LinkedList;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 import java.lang.reflect.Type;
 import java.security.InvalidParameterException;
 
@@ -12,7 +14,7 @@ public abstract class Scheduler
 {
     public static boolean Debug = true;
 
-    private LinkedList<Station> stations = new LinkedList<>();
+    protected List<Station> stations = new ArrayList<>();
 
     public void AddStation(Station station) 
         throws InvalidParameterException
@@ -47,20 +49,12 @@ public abstract class Scheduler
         }
     }
 
-    protected LinkedList<Station> StationsProducing(Type product)
+    protected List<Station> StationsProducing(Type product)
     {
-        LinkedList<Station> filtered = new LinkedList<>();
-        synchronized (stations)
-        {
-            for (var s : stations)
-            {
-                if (s.producedProduct == product)
-                {
-                    filtered.add(s);
-                }
-            }
-        }
-        return filtered;
+        return stations
+            .stream()
+            .filter(s -> s.producedProduct == product)
+            .collect(Collectors.toList());
     }
 
     public abstract void Schedule(Task task);
@@ -86,8 +80,8 @@ public abstract class Scheduler
                 //System.out.println(task);
             }
         } catch (Throwable ex) {
-            System.out.println("Exception happended!");
-            System.out.println(ex.getMessage());
+            System.err.println("Exception happended!");
+            System.err.println(ex.getMessage());
             var trace = ex.getStackTrace();
             for (int i = 0; i < trace.length; i++)
             {

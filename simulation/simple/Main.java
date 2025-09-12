@@ -10,8 +10,8 @@ import models.station.Station;
 public class Main
 {
     /**
-     * This is a 2 products simulation
-     * Is used only for testing if the methods work and not how efficient they are
+     * This is a 2 products simulation.
+     * It is used only for testing if the methods work and not how efficient they are
      */
     public static void main(String[] args)
     {

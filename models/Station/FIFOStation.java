@@ -104,4 +104,9 @@ extends Station
         task.DoWork();
         return task;
     }
+
+    public synchronized int TaskCount()
+    {
+        return queue.size();
+    }
 }

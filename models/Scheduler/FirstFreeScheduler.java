@@ -8,7 +8,7 @@ import models.task.Task;
 public class FirstFreeScheduler 
 extends Scheduler
 {
-    public void Schedule(Task task)
+    public synchronized void Schedule(Task task)
     {
         if (task == null)
         {
