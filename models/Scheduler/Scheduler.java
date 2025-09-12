@@ -57,7 +57,7 @@ public abstract class Scheduler
             .collect(Collectors.toList());
     }
 
-    public abstract void Schedule(Task task);
+    public abstract void Schedule(Task task) throws InterruptedException;
 
     public void Schedule(Receip receip, int priority)
     {

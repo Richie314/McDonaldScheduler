@@ -11,6 +11,7 @@ extends Scheduler {
     public abstract Comparator<Station> getComparator();
     
     public synchronized void Schedule(Task task)
+    throws InterruptedException
     {
         if (task == null)
         {
@@ -38,6 +39,7 @@ extends Scheduler {
                     // and the station.AddTask().
                     // In that case we'll check the next one
                 }
+                Thread.sleep((long)(Math.random() * 50));
             }
 
             // Every station has become unavaible.

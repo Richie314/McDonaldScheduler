@@ -21,25 +21,4 @@ extends FIFOStation
             }).reversed()
         );    
     }
-
-    /*
-    public void AddTask(Task task)
-    {
-        if (!(task instanceof PriorityTask))
-        {
-            throw new InvalidParameterException("Task priority cannot be deduced");
-        }
-        super.AddTask(task);
-    }
-
-    public void AddTaskWhenAvaible(Task task)
-    throws InvalidParameterException, InterruptedException
-    {
-        if (!(task instanceof PriorityTask))
-        {
-            throw new InvalidParameterException("Task priority cannot be deduced");
-        }
-        super.AddTaskWhenAvaible(task);
-    }
-    */
 }

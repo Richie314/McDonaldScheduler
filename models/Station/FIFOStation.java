@@ -105,8 +105,11 @@ extends Station
         return task;
     }
 
-    public synchronized int TaskCount()
+    public int TaskCount()
     {
-        return queue.size();
+        synchronized (queue)
+        {
+            return queue.size();
+        }
     }
 }

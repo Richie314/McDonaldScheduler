@@ -9,6 +9,7 @@ import models.task.Task;
 
 public abstract class Station
 extends Thread
+implements Comparable<Station>
 {
     public Type producedProduct;
     private AtomicInteger completedTasks;
@@ -69,8 +70,13 @@ extends Thread
                 //    continue;
                 //}
                 //notify();
-                Thread.sleep(100);
+                Thread.sleep(50);
             }
         } catch (Throwable ex) { }
+    }
+
+    @Override
+    public int compareTo(Station other) {
+        return this.producedProduct.toString().compareTo(other.producedProduct.toString());
     }
 }

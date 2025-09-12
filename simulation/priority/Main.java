@@ -2,6 +2,7 @@ package simulation.priority;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -26,6 +27,8 @@ public class Main
             stations.add(new PriorityStation(Product3.class, 5));
             stations.add(new PriorityStation(Product4.class, 5));
         }
+
+        stations.sort(Comparator.naturalOrder());
         for (var station : stations)
         {
             sched.AddStation(station);
@@ -73,10 +76,12 @@ public class Main
 
         try {
             if (timeout > 0)
-                latch.await(250, TimeUnit.SECONDS);
+                latch.await(timeout, TimeUnit.SECONDS);
             else
                 latch.await();
-        } catch (InterruptedException ex) {}
+        } catch (InterruptedException ex) {
+            System.err.println("Simulation stopped.");
+        }
 
         float duration = (float)(System.currentTimeMillis() - simStart) / 1000;
         System.out.println("Simulation ended in " + duration + " s");
@@ -84,6 +89,14 @@ public class Main
         {
             System.out.println("\t" + station.producedProduct.getTypeName() + ": " + station.completedTasks());
         }
+        
+        
+        for (Thread t : threads)
+        {
+            if (t.isAlive())
+                t.interrupt();
+        }
+        
     }
 
     private static void sim2() { complexSim(new FirstFreeScheduler(), 3, 0); }
