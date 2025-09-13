@@ -15,3 +15,26 @@ Can schedule both [Receips](#receip) and [Tasks](#task) to the [Stations](#stati
 
 ## `Receip`
 Keeps track of how the final product is built. When a [Task](#task) finishes, the Receip retrieves its result and creates the new Task for the next step in the production line. 
+
+# Run the simulations
+
+A very simple simulation is found in the [`simulation/simple`](./simulation/simple/) folder.
+
+```bash
+javac -d . simulation/simple/Main.java
+java simulation.simple.Main
+```
+
+One that tests the system with multiple receips and no priorities is found in the [`simulation/multiple_receips`](./simulation/multiple_receips/) folder.
+
+```bash
+javac -d . simulation/multiple_receips/Main.java
+java simulation.multiple_receips.Main
+```
+
+A more sophisticated (different types of scheduling and introducing priorities) simulation is found in the [`simulation/priority`](./simulation/priority/) folder.
+
+```bash
+javac -d . simulation/priority/Main.java
+java simulation.priority.Main
+```
