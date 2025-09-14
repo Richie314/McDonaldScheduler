@@ -1,6 +1,7 @@
-package models.scheduler;
+package models.scheduler.ordered;
 
 import java.util.Comparator;
+
 import models.station.Station;
 
 public class RoundRobinScheduler

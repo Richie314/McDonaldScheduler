@@ -1,5 +1,6 @@
-package models.scheduler;
+package models.scheduler.greedy;
 
+import models.scheduler.Scheduler;
 import models.task.Task;
 
 /**
@@ -8,7 +9,7 @@ import models.task.Task;
 public class FirstFreeScheduler 
 extends Scheduler
 {
-    public synchronized void Schedule(Task task)
+    public void Schedule(Task task)
     {
         if (task == null)
         {

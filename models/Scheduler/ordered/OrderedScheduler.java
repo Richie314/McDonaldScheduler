@@ -1,7 +1,8 @@
-package models.scheduler;
+package models.scheduler.ordered;
 
 import java.util.Comparator;
 
+import models.scheduler.Scheduler;
 import models.station.Station;
 import models.task.Task;
 
@@ -10,7 +11,7 @@ extends Scheduler {
 
     public abstract Comparator<Station> getComparator();
     
-    public synchronized void Schedule(Task task)
+    public void Schedule(Task task)
     throws InterruptedException
     {
         if (task == null)
@@ -39,9 +40,11 @@ extends Scheduler {
                     // and the station.AddTask().
                     // In that case we'll check the next one
                 }
-                Thread.sleep((long)(Math.random() * 50));
+                // Thread.sleep((long)(Math.random() * 50));
             }
 
+            // System.err.println("Failed cycle to schedule " + task);
+            
             // Every station has become unavaible.
             // Let's fetch them again
         } while (true);

@@ -8,10 +8,11 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import models.receip.*;
-import models.scheduler.FirstFreeScheduler;
-import models.scheduler.RandomScheduler;
-import models.scheduler.RoundRobinScheduler;
 import models.scheduler.Scheduler;
+import models.scheduler.greedy.FirstFreeScheduler;
+import models.scheduler.greedy.MostFreeScheduler;
+import models.scheduler.ordered.RandomScheduler;
+import models.scheduler.ordered.RoundRobinScheduler;
 import models.station.PriorityStation;
 import models.station.Station;
 
@@ -99,28 +100,35 @@ public class Main
         
     }
 
-    private static void sim2() { complexSim(new FirstFreeScheduler(), 3, 0); }
+    private static void sim1() { complexSim(new FirstFreeScheduler(), 3, 0); }
+
+    private static void sim2() { complexSim(new MostFreeScheduler(), 3, 0); }
     
     private static void sim3() { complexSim(new RoundRobinScheduler(), 3, 0); }
 
-    private static void sim4() { complexSim(new RandomScheduler(), 3, 200); }
+    private static void sim4() { complexSim(new RandomScheduler(), 3, 50); }
 
     public static void main(String[] args)
     {
         Scheduler.Debug = false;
         Station.Debug = false;
         
-        System.out.println("Running four products simulation (basic scheduling)...");
+        System.out.println("Basic (greedy) scheduling...");
+        System.out.println("--------------------------------------");
+        sim1();
+        System.out.println();
+        
+        System.out.println("Simple (greedy) scheduling...");
         System.out.println("--------------------------------------");
         sim2();
         System.out.println();
 
-        System.out.println("Running four products simulation (Round Robin scheduling)...");
+        System.out.println("Round Robin scheduling...");
         System.out.println("--------------------------------------");
         sim3();
         System.out.println();
 
-        System.out.println("Running four products simulation (Random scheduling)...");
+        System.out.println("Random scheduling...");
         System.out.println("--------------------------------------");
         sim4();
         System.out.println();

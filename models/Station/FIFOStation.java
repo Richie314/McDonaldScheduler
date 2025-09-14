@@ -23,7 +23,7 @@ extends Station
         queue = new ArrayDeque<>(capacity);
     }
 
-    public synchronized void AddTask(Task task)
+    public /*synchronized*/ void AddTask(Task task)
     {
         if (task == null)
         {
@@ -45,12 +45,15 @@ extends Station
             throw new IllegalStateException("Cannot add task now: station is not running!");
         }
 
-        if (queue.size() >= capacity)
+        synchronized (queue)
         {
-            throw new IllegalStateException("Cannot add task now: station is full!");
-        }
+            if (queue.size() >= capacity)
+            {
+                throw new IllegalStateException("Cannot add task now: station is full!");
+            }
 
-        queue.offer(task);
+            queue.offer(task);
+        }
     }
 
     public void AddTaskWhenAvaible(Task task)
@@ -111,5 +114,10 @@ extends Station
         {
             return queue.size();
         }
+    }
+
+    public double fillingStatus()
+    {
+        return TaskCount() / (double)capacity;
     }
 }

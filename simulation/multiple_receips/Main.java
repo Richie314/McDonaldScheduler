@@ -3,8 +3,8 @@ package simulation.multiple_receips;
 import java.util.function.Function;
 
 import models.receip.*;
-import models.scheduler.FirstFreeScheduler;
 import models.scheduler.Scheduler;
+import models.scheduler.greedy.FirstFreeScheduler;
 import models.station.FIFOStation;
 import models.station.Station;
 
