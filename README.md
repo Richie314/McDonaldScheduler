@@ -13,6 +13,10 @@ It is implemented via a daemon thread that constantly executes the tasks that ca
 ## `Scheduler`
 Can schedule both [Receips](#receip) and [Tasks](#task) to the [Stations](#station).
 
+For tasks, the scheduler holds the criteria on which is chosen the station to assign the task at.
+
+Many examples [below](#avaible-schedulers).
+
 ## `Receip`
 Keeps track of how the final product is built. When a [Task](#task) finishes, the Receip retrieves its result and creates the new Task for the next step in the production line. 
 
@@ -38,3 +42,35 @@ A more sophisticated (different types of scheduling and introducing priorities) 
 javac -d . simulation/priority/Main.java
 java simulation.priority.Main
 ```
+
+# Avaible schedulers
+
+There are many possible schedulers provided, and can be found in the 
+[`models/scheduler`](./models/scheduler/) folder.
+
+## Greedy schedulers
+
+### [FirstFreeScheduler](./models/scheduler/greedy/FirstFreeScheduler.java)
+
+Assigns a Task to the first Station found that can handle the requested work, if that station is temporarily unavaible, the scheduler waits until it becomes ready to accept the requested job.
+
+This policy keeps the number of running stations to the least possible value. 
+
+### [MostFreeScheduler](./models/scheduler/greedy/MostFreeScheduler.java)
+
+Assigns a Task to the, relatively to its capacity, least filled station. If needed, waits until the station becomes avaible.
+
+Comparison between station, to determine which is the least filled, works only if the station is an instance (or derived) of [`FIFOStation.java`](./models/station/FIFOStation.java).
+
+## Complex schedulers
+
+These are schedulers that order the stations with a certain criteria and then try to assign the task to the first station they find (after the ordering) that can handle the requested job in this moment. No waiting for a _chosen_ station to free itself.
+
+### [RandomScheduler](./models/scheduler/ordered/RandomScheduler.java)
+
+Shuffles the avaible stations list instead of ordering it.
+
+### [RoundRobinScheduler](./models/scheduler/ordered/RoundRobinScheduler.java)
+
+Orders the stations based on the current number of tasks they have in their queues.
+The "most free" is chosen.
