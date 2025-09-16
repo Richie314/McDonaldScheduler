@@ -1,11 +1,11 @@
-package models.station;
+package models.Station;
 
 import java.lang.reflect.Type;
 import java.lang.Thread;
 import java.security.InvalidParameterException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import models.task.Task;
+import models.Task.Task;
 
 public abstract class Station
 extends Thread

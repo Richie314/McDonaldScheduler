@@ -1,4 +1,4 @@
-package models.task;
+package models.Task;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Type;

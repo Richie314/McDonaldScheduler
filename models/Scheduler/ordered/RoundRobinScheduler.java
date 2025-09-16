@@ -1,8 +1,8 @@
-package models.scheduler.ordered;
+package models.Scheduler.ordered;
 
 import java.util.Comparator;
 
-import models.station.Station;
+import models.Station.Station;
 
 public class RoundRobinScheduler
 extends OrderedScheduler {

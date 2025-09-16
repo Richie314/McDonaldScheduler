@@ -1,8 +1,8 @@
-package models.scheduler;
+package models.Scheduler;
 
-import models.task.Task;
-import models.receip.Receip;
-import models.station.Station;
+import models.Receip.Receip;
+import models.Station.Station;
+import models.Task.Task;
 
 import java.util.List;
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
-package models.scheduler.greedy;
+package models.Scheduler.greedy;
 
-import models.scheduler.Scheduler;
-import models.task.Task;
+import models.Scheduler.Scheduler;
+import models.Task.Task;
 
 /**
  * A scheduer that enques the item in the first free station

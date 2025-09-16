@@ -1,4 +1,4 @@
-package models.task;
+package models.Task;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

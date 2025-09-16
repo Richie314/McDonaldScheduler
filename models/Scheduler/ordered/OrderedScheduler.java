@@ -1,10 +1,10 @@
-package models.scheduler.ordered;
+package models.Scheduler.ordered;
 
 import java.util.Comparator;
 
-import models.scheduler.Scheduler;
-import models.station.Station;
-import models.task.Task;
+import models.Scheduler.Scheduler;
+import models.Station.Station;
+import models.Task.Task;
 
 public abstract class OrderedScheduler 
 extends Scheduler {

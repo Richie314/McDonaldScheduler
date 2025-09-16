@@ -1,11 +1,11 @@
 package simulation.simple;
 
-import models.receip.Receip;
-import models.receip.TwoStepReceip;
-import models.scheduler.Scheduler;
-import models.scheduler.greedy.FirstFreeScheduler;
-import models.station.FIFOStation;
-import models.station.Station;
+import models.Receip.Receip;
+import models.Receip.TwoStepReceip;
+import models.Scheduler.Scheduler;
+import models.Scheduler.greedy.FirstFreeScheduler;
+import models.Station.FIFOStation;
+import models.Station.Station;
 
 public class Main
 {

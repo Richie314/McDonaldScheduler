@@ -1,4 +1,4 @@
-package models.receip;
+package models.Receip;
 import java.lang.reflect.Type;
 
 public class SingleStepReceip

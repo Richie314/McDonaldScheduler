@@ -1,7 +1,9 @@
-package models.station;
+package models.Station;
 
-import models.task.*;
 import java.util.PriorityQueue;
+
+import models.Task.*;
+
 import java.lang.reflect.Type;
 import java.util.Comparator;
 

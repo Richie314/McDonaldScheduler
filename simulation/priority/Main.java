@@ -7,14 +7,14 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import models.receip.*;
-import models.scheduler.Scheduler;
-import models.scheduler.greedy.FirstFreeScheduler;
-import models.scheduler.greedy.MostFreeScheduler;
-import models.scheduler.ordered.RandomScheduler;
-import models.scheduler.ordered.RoundRobinScheduler;
-import models.station.PriorityStation;
-import models.station.Station;
+import models.Receip.*;
+import models.Scheduler.Scheduler;
+import models.Scheduler.greedy.FirstFreeScheduler;
+import models.Scheduler.greedy.MostFreeScheduler;
+import models.Scheduler.ordered.RandomScheduler;
+import models.Scheduler.ordered.RoundRobinScheduler;
+import models.Station.PriorityStation;
+import models.Station.Station;
 
 public class Main
 {

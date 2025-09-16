@@ -1,11 +1,11 @@
-package models.scheduler.greedy;
+package models.Scheduler.greedy;
 
 import java.util.Comparator;
 
-import models.scheduler.Scheduler;
-import models.station.FIFOStation;
-import models.station.Station;
-import models.task.Task;
+import models.Scheduler.Scheduler;
+import models.Station.FIFOStation;
+import models.Station.Station;
+import models.Task.Task;
 
 public class MostFreeScheduler
 extends Scheduler
