@@ -34,7 +34,8 @@ public class Main
         // null -> Product1 -> Product2
         Receip r = new TwoStepReceip(Product1.class, Product2.class);
         sched.Schedule(r);
-
+        sched.ShutStations();
+        
         System.out.println();
         System.out.println("--------------------------------------");
         System.out.println("Simulation ended");

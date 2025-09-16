@@ -89,7 +89,7 @@ extends Station
                     return;
                 }
             }
-            Thread.sleep(500);
+            Thread.sleep(50);
         } while (true);
     }
 

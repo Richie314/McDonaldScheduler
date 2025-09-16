@@ -29,24 +29,14 @@ public abstract class Scheduler
             throw new InvalidParameterException("Station already in use. Cannot add to this scheduler.");
         }
 
-        synchronized (stations)
-        {
-            stations.add(station);
-            station.setDaemon(true);
-            station.start();
-        }
+        stations.add(station);
+        station.start();
     }
 
     public void ShutStations()
     {
-        synchronized (stations)
-        {
-            for (Station station : stations)
-            {
-                station.interrupt();
-            }
-            stations.clear();
-        }
+        stations.stream().forEach(station -> station.interrupt());
+        stations.clear();
     }
 
     protected List<Station> StationsProducing(Type product)
@@ -76,8 +66,6 @@ public abstract class Scheduler
                     Schedule(task);
                     task.wait();
                 }
-
-                //System.out.println(task);
             }
         } catch (Throwable ex) {
             System.err.println("Exception happended!");

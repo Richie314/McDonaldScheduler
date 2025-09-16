@@ -15,16 +15,12 @@ extends Scheduler
         {
             return;
         }
-
-        var stationsForThisTask = this.StationsProducing(task.Type);
-        if (stationsForThisTask.size() == 0)
-        {
-            System.err.println("Could not schedule task producing " + task.Type.getTypeName() + "!");
-            return;
-        }
         
-        for (var station : stationsForThisTask)
+        for (var station : stations)
         {
+            if (station.producedProduct != task.Type)
+                continue;
+
             try {
                 station.AddTaskWhenAvaible(task);
                 return;

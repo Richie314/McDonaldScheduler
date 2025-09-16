@@ -62,7 +62,7 @@ Assigns a Task to the, relatively to its capacity, least filled station. If need
 
 Comparison between station, to determine which is the least filled, works only if the station is an instance (or derived) of [`FIFOStation.java`](./models/station/FIFOStation.java).
 
-## Complex schedulers
+## Order-based schedulers
 
 These are schedulers that order the stations with a certain criteria and then try to assign the task to the first station they find (after the ordering) that can handle the requested job in this moment. No waiting for a _chosen_ station to free itself.
 
@@ -70,7 +70,26 @@ These are schedulers that order the stations with a certain criteria and then tr
 
 Shuffles the avaible stations list instead of ordering it.
 
-### [RoundRobinScheduler](./models/scheduler/ordered/RoundRobinScheduler.java)
+### [FirstFitScheduler](./models/scheduler/ordered/FirstFitScheduler.java)
+
+Does not order at all. The first station that can handle the task at this moment gets chosen.
+
+### [BestFitScheduler](./models/scheduler/ordered/BestFitScheduler.java)
+
+Orders the stations based on the current number of tasks they have in their queues.
+The "least free" is chosen.
+
+### [WorstFitScheduler](./models/scheduler/ordered/WorstFitScheduler.java)
 
 Orders the stations based on the current number of tasks they have in their queues.
 The "most free" is chosen.
+
+## Complex schedulers
+
+More sophisticated, rely on additional structures.
+
+### [RoundRobinScheduler](./models/scheduler/complex/RoundRobinScheduler.java)
+
+Keeps the stations in groups (based on the produced type) and an index for each group.
+
+At every scheduler of a task, the station currently pointed by the index is chosen, while the index itself is atomically incremented.

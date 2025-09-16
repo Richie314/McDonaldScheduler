@@ -4,11 +4,12 @@ import java.util.Comparator;
 
 import models.Station.Station;
 
-public class RoundRobinScheduler
+public class BestFitScheduler
 extends OrderedScheduler {
 
     public Comparator<Station> getComparator()
     {
-        return Comparator.comparingInt(station -> station.TaskCount());
+        // sorts in descending order by TaskCount()
+        return Comparator.comparingInt(station -> -station.TaskCount());
     }
 }

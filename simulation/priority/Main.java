@@ -7,18 +7,22 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import models.Receip.*;
+import models.Receip.Receip;
+import models.Receip.ArrayReceip;
 import models.Scheduler.Scheduler;
+import models.Scheduler.complex.RoundRobinScheduler;
 import models.Scheduler.greedy.FirstFreeScheduler;
 import models.Scheduler.greedy.MostFreeScheduler;
+import models.Scheduler.ordered.BestFitScheduler;
+import models.Scheduler.ordered.FirstFitScheduler;
 import models.Scheduler.ordered.RandomScheduler;
-import models.Scheduler.ordered.RoundRobinScheduler;
+import models.Scheduler.ordered.WorstFitScheduler;
 import models.Station.PriorityStation;
 import models.Station.Station;
 
 public class Main
 {
-    private static void complexSim(Scheduler sched, int stationsPerType, long timeout)
+    private static void sim(Scheduler sched, int stationsPerType, long timeout)
     {
         List<Station> stations = new ArrayList<>();
         for (int i = 0; i < stationsPerType; i++)
@@ -70,10 +74,7 @@ public class Main
 
         Collections.shuffle(threads);
         long simStart = System.currentTimeMillis();
-        for (Thread thread : threads)
-        {
-            thread.start();
-        }
+        threads.stream().forEach(t -> t.start());
 
         try {
             if (timeout > 0)
@@ -91,22 +92,8 @@ public class Main
             System.out.println("\t" + station.producedProduct.getTypeName() + ": " + station.completedTasks());
         }
         
-        
-        for (Thread t : threads)
-        {
-            if (t.isAlive())
-                t.interrupt();
-        }
-        
+        sched.ShutStations();
     }
-
-    private static void sim1() { complexSim(new FirstFreeScheduler(), 3, 0); }
-
-    private static void sim2() { complexSim(new MostFreeScheduler(), 3, 0); }
-    
-    private static void sim3() { complexSim(new RoundRobinScheduler(), 3, 0); }
-
-    private static void sim4() { complexSim(new RandomScheduler(), 3, 50); }
 
     public static void main(String[] args)
     {
@@ -115,22 +102,37 @@ public class Main
         
         System.out.println("Basic (greedy) scheduling...");
         System.out.println("--------------------------------------");
-        sim1();
+        sim(new FirstFreeScheduler(), 3, 0);
         System.out.println();
         
         System.out.println("Simple (greedy) scheduling...");
         System.out.println("--------------------------------------");
-        sim2();
-        System.out.println();
-
-        System.out.println("Round Robin scheduling...");
-        System.out.println("--------------------------------------");
-        sim3();
+        sim(new MostFreeScheduler(), 3, 0);
         System.out.println();
 
         System.out.println("Random scheduling...");
         System.out.println("--------------------------------------");
-        sim4();
+        sim(new RandomScheduler(), 3, 50);
+        System.out.println();
+        
+        System.out.println("First-fit scheduling...");
+        System.out.println("--------------------------------------");
+        sim(new FirstFitScheduler(), 3, 0);
+        System.out.println();
+
+        System.out.println("Best-fit scheduling...");
+        System.out.println("--------------------------------------");
+        sim(new BestFitScheduler(), 3, 0);
+        System.out.println();
+
+        System.out.println("Worst-fit scheduling...");
+        System.out.println("--------------------------------------");
+        sim(new WorstFitScheduler(), 3, 0);
+        System.out.println();
+
+        System.out.println("Round Robin scheduling...");
+        System.out.println("--------------------------------------");
+        sim(new RoundRobinScheduler(), 3, 0);
         System.out.println();
     }
 }

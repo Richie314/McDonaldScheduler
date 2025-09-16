@@ -1,6 +1,8 @@
 package simulation.multiple_receips;
 
 import java.util.function.Function;
+import java.util.List;
+import java.util.ArrayList;
 
 import models.Receip.*;
 import models.Scheduler.Scheduler;
@@ -58,8 +60,19 @@ public class Main
         };
 
         // Simulating requests from 3 different sources
-        new Thread(schedule.apply(9)).start();
-        new Thread(schedule.apply(7)).start();
-        new Thread(schedule.apply(13)).start();
+        List<Thread> threads = new ArrayList<>();
+        threads.add(new Thread(schedule.apply(9)));
+        threads.add(new Thread(schedule.apply(7)));
+        threads.add(new Thread(schedule.apply(13)));
+        threads.stream().forEach(t -> t.start());
+
+        threads.stream().forEach(t -> {
+            try {
+                t.join();
+            } catch (InterruptedException ex) {
+                System.err.println(ex);
+            }
+        });
+        sched.ShutStations();
     }
 }

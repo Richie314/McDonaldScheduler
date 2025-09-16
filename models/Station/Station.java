@@ -60,7 +60,7 @@ implements Comparable<Station>
             );
         }
         try {
-            while (true)
+            while (!Thread.currentThread().isInterrupted())
             {
                 Task exceutedTask = this.DoWork();
                 if (exceutedTask != null)
