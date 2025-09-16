@@ -92,4 +92,4 @@ More sophisticated, rely on additional structures.
 
 Keeps the stations in groups (based on the produced type) and an index for each group.
 
-At every scheduler of a task, the station currently pointed by the index is chosen, while the index itself is atomically incremented.
+At every schedule of a task, the station currently pointed by the index is chosen, while the index itself is atomically incremented.
