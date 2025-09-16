@@ -62,15 +62,8 @@ implements Comparable<Station>
         try {
             while (!Thread.currentThread().isInterrupted())
             {
-                Task exceutedTask = this.DoWork();
-                if (exceutedTask != null)
-                    this.completedTasks.getAndIncrement();
-                //if (exceutedTask == null)
-                //{
-                //    continue;
-                //}
-                //notify();
-                Thread.sleep(50);
+                this.DoWork();
+                this.completedTasks.getAndIncrement();
             }
         } catch (Throwable ex) { }
     }

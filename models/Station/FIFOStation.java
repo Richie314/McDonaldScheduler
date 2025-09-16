@@ -25,7 +25,7 @@ extends Station
         queue = new ArrayDeque<>(capacity);
     }
 
-    public /*synchronized*/ void AddTask(Task task)
+    public void AddTask(Task task)
     {
         if (task == null)
         {
@@ -55,6 +55,7 @@ extends Station
             }
 
             queue.offer(task);
+            queue.notifyAll();
         }
     }
 
@@ -86,25 +87,30 @@ extends Station
                 if (queue.size() < capacity)
                 {
                     queue.offer(task);
+                    queue.notifyAll();
                     return;
                 }
+                queue.wait();
             }
-            Thread.sleep(50);
         } while (true);
     }
 
     public Task DoWork() throws Throwable
     {
         Task task = null;
-        synchronized (queue)
-        {
-            task = queue.poll();
-        }
 
-        if (task == null)
-        {
-            return null;
-        }
+        do {
+            synchronized (queue)
+            {
+                task = queue.poll();
+                if (task != null)
+                {
+                    queue.notifyAll();
+                } else {
+                    queue.wait();
+                }
+            }
+        } while (task == null);
 
         task.DoWork();
         return task;
