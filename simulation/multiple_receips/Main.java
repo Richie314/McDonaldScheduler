@@ -53,7 +53,7 @@ public class Main
                 for (int i = 0; i < receipsCount; i++)
                 {
                     Receip receip = receips[(int) Math.floor(Math.random() * receips.length)];
-                    sched.Schedule(receip);
+                    receip.SendToScheduler(sched);
                 }
                 System.out.println(receipsCount + " receips completed");
             };

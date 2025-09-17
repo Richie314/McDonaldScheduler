@@ -12,12 +12,13 @@ public class IncrementalIdentifier
         return lastId.getAndAdd(length);
     }
 
-    public synchronized int getId()
+    public int getId()
     {
         return id;
     }
-    public synchronized void setId(int newId)
+
+    public IncrementalIdentifier(int id)
     {
-        id = newId;
+        this.id = id;
     }
 }

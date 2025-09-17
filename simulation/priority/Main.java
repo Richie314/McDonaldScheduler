@@ -54,20 +54,20 @@ public class Main
         {
             // Low priority
             threads.add(new Thread(() -> {
-                sched.Schedule(longReceip);
+                longReceip.SendToScheduler(sched);
                 latch.countDown();
             }));
 
             // Incremental priority
             int priority = 1 + i;
             threads.add(new Thread(() -> {
-                sched.Schedule(longReceip, priority);
+                longReceip.SendToScheduler(sched, priority);
                 latch.countDown();
             }));
 
             // High priority
             threads.add(new Thread(() -> {
-                sched.Schedule(longReceip, RECEIP_COUNT + 10);
+                longReceip.SendToScheduler(sched, RECEIP_COUNT + 10);
                 latch.countDown();
             }));
         }
@@ -97,7 +97,7 @@ public class Main
 
     public static void main(String[] args)
     {
-        Scheduler.Debug = false;
+        Receip.Debug = false;
         Station.Debug = false;
         
         System.out.println("Basic (greedy) scheduling...");

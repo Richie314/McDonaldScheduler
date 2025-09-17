@@ -2,6 +2,7 @@ package models.Task;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Type;
+import java.security.InvalidParameterException;
 
 /**
  * A generic operation to do, 
@@ -17,19 +18,19 @@ extends IncrementalIdentifier
 
     public int ReceipDepht = 0;
 
-    public Task(Type type)
+    public Task(Type type, int id)
     {
-        super();
+        super(id);
+
         this.Type = type;
         this.ResultClass = (Class<?>)type;
-        this.setId(Task.reserveIdRange(1));
     }
     public Task(Type type, Task completedTask)
     {
-        this(type);
+        this(type, completedTask.getId() + 1);
+
         this.Input = completedTask.Result;
         this.ReceipDepht = completedTask.ReceipDepht + 1;
-        this.setId(completedTask.getId() + 1);
     }
 
     /**
@@ -37,7 +38,6 @@ extends IncrementalIdentifier
      */
     public synchronized void DoWork() throws Throwable
     {
-        // System.out.println("\tDoing task work...");
         // The actual work happens when we call newInstance();
 
         Class<?>[] constructor_parameters_types = 
@@ -51,7 +51,6 @@ extends IncrementalIdentifier
                 new Object[] { Input };
 
         Constructor<?> builder = ResultClass.getConstructor(constructor_parameters_types);
-        // System.out.println("\tUsing builder " + builder.toString());
 
         Result = builder.newInstance(constructor_parameters);
         notifyAll();

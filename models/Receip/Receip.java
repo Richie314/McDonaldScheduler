@@ -5,9 +5,11 @@ import javax.naming.OperationNotSupportedException;
 
 import models.Task.PriorityTask;
 import models.Task.Task;
+import models.Scheduler.Scheduler;
 
 public abstract class Receip
 {
+    public static boolean Debug = true;
     protected Type[] Stages = new Type[0]; // Fallback to empty implementations of LoadStages();
 
     private void LoadStagesIfNecessary() 
@@ -23,26 +25,26 @@ public abstract class Receip
         }
     }
 
-    public Task First(int receipLength, int priority) throws Throwable
+    public Task First(int priority) throws Throwable
     {
-        return Next(null, receipLength, priority);
+        LoadStagesIfNecessary();
+
+        int id = Task.reserveIdRange(StepsCount());
+        return priority != 0 ? 
+            new PriorityTask(Stages[0], priority, id) : 
+            new Task(Stages[0], id);
     }
 
     /**
      * Takes a task and returns the next one to be done
      */
-    public Task Next(Task task, int receipLength, int priority) throws Throwable
+    public Task Next(Task task, int priority) throws Throwable
     {
         LoadStagesIfNecessary();
 
         if (task == null)
         {
-            int id = Task.reserveIdRange(receipLength);
-            Task outTask = priority != 0 ? 
-                new PriorityTask(Stages[0], priority) : 
-                new Task(Stages[0]);
-            outTask.setId(id);
-            return outTask;
+            return First(priority);
         }
 
         boolean takeNext = false;
@@ -69,5 +71,39 @@ public abstract class Receip
 
     protected abstract void LoadStages();
 
-    public synchronized int StepsCount() { return Stages.length; }
+    public int StepsCount() { return Stages.length; }
+
+    public void SendToScheduler(Scheduler sched, int priority)
+    {
+        try {
+            for (
+                Task task = First(priority); 
+                task != null; 
+                task = Next(task, priority)
+            ) {
+                if (Debug)
+                {
+                    System.out.println(task);
+                }
+                
+                synchronized (task) {
+                    sched.Schedule(task);
+                    task.wait();
+                }
+            }
+        } catch (Throwable ex) {
+            System.err.println("Exception happended!");
+            System.err.println(ex.getMessage());
+            var trace = ex.getStackTrace();
+            for (int i = 0; i < trace.length; i++)
+            {
+                System.err.println("\t#" + i + ": " + trace[i]);
+            }
+        }
+    }
+
+    public void SendToScheduler(Scheduler sched)
+    {
+        SendToScheduler(sched, 0);
+    }
 }

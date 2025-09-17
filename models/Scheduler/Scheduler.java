@@ -12,8 +12,6 @@ import java.security.InvalidParameterException;
 
 public abstract class Scheduler
 {
-    public static boolean Debug = true;
-
     protected List<Station> stations = new ArrayList<>();
 
     public void AddStation(Station station) 
@@ -48,38 +46,4 @@ public abstract class Scheduler
     }
 
     public abstract void Schedule(Task task) throws InterruptedException;
-
-    public void Schedule(Receip receip, int priority)
-    {
-        try {
-            for (
-                Task task = receip.First(receip.StepsCount(), priority); 
-                task != null; 
-                task = receip.Next(task, receip.StepsCount(), priority)
-            ) {
-                if (Debug)
-                {
-                    System.out.println(task);
-                }
-                
-                synchronized (task) {
-                    Schedule(task);
-                    task.wait();
-                }
-            }
-        } catch (Throwable ex) {
-            System.err.println("Exception happended!");
-            System.err.println(ex.getMessage());
-            var trace = ex.getStackTrace();
-            for (int i = 0; i < trace.length; i++)
-            {
-                System.err.println("\t#" + i + ": " + trace[i]);
-            }
-        }
-    }
-
-    public void Schedule(Receip receip)
-    {
-        Schedule(receip, 0);
-    }
 }

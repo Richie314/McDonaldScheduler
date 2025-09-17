@@ -6,17 +6,17 @@ public class PriorityTask
 extends Task
 {
     public int Priority = 0;
-    public PriorityTask(Type type)
+    public PriorityTask(Type type, int id)
     {
-        super(type);
+        super(type, id);
     }
     public PriorityTask(Type type, Task completedTask)
     {
         super(type, completedTask);
     }
-    public PriorityTask(Type type, int priority)
+    public PriorityTask(Type type, int priority, int id)
     {
-        super(type);
+        super(type, id);
         this.Priority = priority;
     }
     public PriorityTask(Type type, Task completedTask, int priority)
