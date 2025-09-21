@@ -1,6 +1,5 @@
 package models.Scheduler;
 
-import models.Receip.Receip;
 import models.Station.Station;
 import models.Task.Task;
 

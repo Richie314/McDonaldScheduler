@@ -2,11 +2,10 @@ package models.Station;
 
 import java.security.InvalidParameterException;
 import java.util.Queue;
-
-import models.Task.Task;
-
 import java.util.ArrayDeque;
 import java.lang.reflect.Type;
+
+import models.Task.Task;
 
 public class FIFOStation
 extends Station
@@ -95,7 +94,7 @@ extends Station
         } while (true);
     }
 
-    public Task DoWork() throws Throwable
+    public Task GetNextTask() throws Throwable
     {
         Task task = null;
 
@@ -111,8 +110,7 @@ extends Station
                 }
             }
         } while (task == null);
-
-        task.DoWork();
+        
         return task;
     }
 

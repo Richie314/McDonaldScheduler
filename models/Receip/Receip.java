@@ -10,24 +10,15 @@ import models.Scheduler.Scheduler;
 public abstract class Receip
 {
     public static boolean Debug = true;
-    protected Type[] Stages = new Type[0]; // Fallback to empty implementations of LoadStages();
+    protected Type[] Stages = new Type[0];
 
-    private void LoadStagesIfNecessary() 
+    public Task First(int priority)
     throws OperationNotSupportedException
     {
         if (Stages.length == 0)
         {
-            LoadStages();
-        }
-        if (Stages.length == 0)
-        {
             throw new OperationNotSupportedException("No stages found. At least one is required");
         }
-    }
-
-    public Task First(int priority) throws Throwable
-    {
-        LoadStagesIfNecessary();
 
         int id = Task.reserveIdRange(StepsCount());
         return priority != 0 ? 
@@ -38,13 +29,17 @@ public abstract class Receip
     /**
      * Takes a task and returns the next one to be done
      */
-    public Task Next(Task task, int priority) throws Throwable
+    public Task Next(Task task, int priority)
+    throws OperationNotSupportedException
     {
-        LoadStagesIfNecessary();
-
         if (task == null)
         {
             return First(priority);
+        }
+        
+        if (Stages.length == 0)
+        {
+            throw new OperationNotSupportedException("No stages found. At least one is required");
         }
 
         boolean takeNext = false;
@@ -69,8 +64,6 @@ public abstract class Receip
         return null;
     }
 
-    protected abstract void LoadStages();
-
     public int StepsCount() { return Stages.length; }
 
     public void SendToScheduler(Scheduler sched, int priority)
@@ -88,7 +81,7 @@ public abstract class Receip
                 
                 synchronized (task) {
                     sched.Schedule(task);
-                    task.wait();
+                    task.wait(); // Release the lock, will be waked by task.notify() inside Station class
                 }
             }
         } catch (Throwable ex) {

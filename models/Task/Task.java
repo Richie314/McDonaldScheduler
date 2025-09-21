@@ -2,7 +2,6 @@ package models.Task;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Type;
-import java.security.InvalidParameterException;
 
 /**
  * A generic operation to do, 
@@ -53,7 +52,6 @@ extends IncrementalIdentifier
         Constructor<?> builder = ResultClass.getConstructor(constructor_parameters_types);
 
         Result = builder.newInstance(constructor_parameters);
-        notifyAll();
     }
 
     protected String getPadding()

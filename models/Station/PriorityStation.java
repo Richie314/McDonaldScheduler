@@ -1,11 +1,10 @@
 package models.Station;
 
 import java.util.PriorityQueue;
-
-import models.Task.*;
-
-import java.lang.reflect.Type;
 import java.util.Comparator;
+import java.lang.reflect.Type;
+
+import models.Task.PriorityTask;
 
 public class PriorityStation
 extends FIFOStation

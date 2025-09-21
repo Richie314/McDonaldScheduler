@@ -12,7 +12,7 @@ extends Thread
 implements Comparable<Station>
 {
     public Type producedProduct;
-    private AtomicInteger completedTasks;
+    private final AtomicInteger completedTasks;
 
     public int completedTasks()
     {
@@ -37,10 +37,10 @@ implements Comparable<Station>
     throws InvalidParameterException, InterruptedException;
 
     /**
-     * Does a minumum work.
-     * @return the completed task
+     * Fetches the next Task to execute
+     * @return the task to be executed
      */
-    public abstract Task DoWork() throws Throwable;
+    public abstract Task GetNextTask() throws Throwable;
 
     /**
      * Returns the number of tasks the station is currently handling
@@ -62,8 +62,15 @@ implements Comparable<Station>
         try {
             while (!Thread.currentThread().isInterrupted())
             {
-                this.DoWork();
-                this.completedTasks.getAndIncrement();
+                Task task = this.GetNextTask();
+                if (task == null)
+                    break;
+                
+                synchronized (task) {
+                    task.DoWork();
+                    this.completedTasks.getAndIncrement();
+                    task.notify(); // Wake the task.wait() inside Receip class
+                }
             }
         } catch (Throwable ex) { }
     }

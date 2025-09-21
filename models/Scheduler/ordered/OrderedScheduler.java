@@ -40,10 +40,7 @@ extends Scheduler {
                     // and the station.AddTask().
                     // In that case we'll check the next one
                 }
-                // Thread.sleep((long)(Math.random() * 50));
             }
-
-            // System.err.println("Failed cycle to schedule " + task);
             
             // Every station has become unavaible.
             // Let's fetch them again

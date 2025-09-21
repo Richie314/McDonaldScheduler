@@ -20,6 +20,8 @@ Many examples [below](#avaible-schedulers).
 ## `Receip`
 Keeps track of how the final product is built. When a [Task](#task) finishes, the Receip retrieves its result and creates the new Task for the next step in the production line. 
 
+![General class diagram](./assets/class-diagram.svg)
+
 # Run the simulations
 
 A very simple simulation is found in the [`simulation/simple`](./simulation/simple/) folder.
@@ -93,3 +95,7 @@ More sophisticated, rely on additional structures.
 Keeps the stations in groups (based on the produced type) and an index for each group.
 
 At every schedule of a task, the station currently pointed by the index is chosen, while the index itself is atomically incremented.
+
+# Locking and mutexes
+
+![Locking](./assets/locking-diagram.svg)

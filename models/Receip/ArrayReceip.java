@@ -15,5 +15,4 @@ extends Receip
         }
         this.Stages = stages;
     }
-    public void LoadStages() { }
 }
