@@ -45,6 +45,13 @@ javac -d . simulation/priority/Main.java
 java simulation.priority.Main
 ```
 
+A simulation with many different schedulers, and many concurrent receips is found in the [`simulation/big`](./simulation/big/) folder.
+
+```bash
+javac -d . simulation/big/Main.java
+java simulation.big.Main
+```
+
 # Avaible schedulers
 
 There are many possible schedulers provided, and can be found in the 
