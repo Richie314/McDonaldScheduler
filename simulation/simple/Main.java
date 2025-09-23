@@ -1,7 +1,6 @@
 package simulation.simple;
 
 import models.Receip.Receip;
-import models.Receip.TwoStepReceip;
 import models.Scheduler.Scheduler;
 import models.Scheduler.greedy.FirstFreeScheduler;
 import models.Station.FIFOStation;
@@ -32,7 +31,7 @@ public class Main
 
         // This represents the following series of steps:
         // null -> Product1 -> Product2
-        Receip r = new TwoStepReceip(Product1.class, Product2.class);
+        Receip r = new Receip(Product1.class, Product2.class);
         r.SendToScheduler(sched);
         sched.ShutStations();
         

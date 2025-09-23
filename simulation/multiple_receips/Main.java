@@ -4,7 +4,7 @@ import java.util.function.Function;
 import java.util.List;
 import java.util.ArrayList;
 
-import models.Receip.*;
+import models.Receip.Receip;
 import models.Scheduler.Scheduler;
 import models.Scheduler.greedy.FirstFreeScheduler;
 import models.Station.FIFOStation;
@@ -36,16 +36,16 @@ public class Main
         sched.AddStation(s5);
 
         Receip[] receips = {
-            new SingleStepReceip(Product1.class),
-            new SingleStepReceip(Product3.class),
-            new SingleStepReceip(Product4.class),
-            new SingleStepReceip(Product5.class),
+            new Receip(Product1.class),
+            new Receip(Product3.class),
+            new Receip(Product4.class),
+            new Receip(Product5.class),
 
-            new TwoStepReceip(Product1.class, Product2.class),
-            new TwoStepReceip(Product3.class, Product4.class),
-            new TwoStepReceip(Product4.class, Product5.class),
+            new Receip(Product1.class, Product2.class),
+            new Receip(Product3.class, Product4.class),
+            new Receip(Product4.class, Product5.class),
             
-            new ArrayReceip(Product3.class, Product4.class, Product5.class),
+            new Receip(Product3.class, Product4.class, Product5.class),
         };
 
         Function<Integer, Runnable> schedule = receipsCount -> {

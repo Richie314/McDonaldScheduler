@@ -11,8 +11,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import models.Receip.Receip;
-import models.Receip.TwoStepReceip;
-import models.Receip.ArrayReceip;
 import models.Scheduler.Scheduler;
 import models.Scheduler.complex.RoundRobinScheduler;
 import models.Scheduler.ordered.BestFitScheduler;
@@ -47,19 +45,19 @@ public class Main
         }
 
         Receip[] receips = new Receip[] {
-            new ArrayReceip(
+            new Receip(
             ProductA1.class, 
                 ProductA2.class, 
                 ProductA3.class,
                 ProductA4.class
             ),
-            new TwoStepReceip(ProductA1.class, ProductA2.class),
-            new ArrayReceip(
+            new Receip(ProductA1.class, ProductA2.class),
+            new Receip(
             ProductB1.class,
                 ProductB2.class,
                 ProductB3.class
             ),
-            new TwoStepReceip(ProductB1.class, ProductB2.class)
+            new Receip(ProductB1.class, ProductB2.class)
         };
 
         List<Thread> threads = new ArrayList<>();
@@ -161,4 +159,3 @@ public class Main
         System.out.println();
     }
 }
-

@@ -8,7 +8,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import models.Receip.Receip;
-import models.Receip.ArrayReceip;
 import models.Scheduler.Scheduler;
 import models.Scheduler.complex.RoundRobinScheduler;
 import models.Scheduler.greedy.FirstFreeScheduler;
@@ -39,7 +38,7 @@ public class Main
             sched.AddStation(station);
         }
 
-        Receip longReceip = new ArrayReceip(
+        Receip longReceip = new Receip(
             Product1.class, 
             Product2.class, 
             Product3.class,

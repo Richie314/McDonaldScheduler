@@ -1,70 +1,81 @@
 package models.Receip;
-import java.lang.reflect.Type;
 
-import javax.naming.OperationNotSupportedException;
+import java.lang.reflect.Type;
+import java.security.InvalidParameterException;
+import java.util.Dictionary;
+import java.util.Hashtable;
 
 import models.Task.PriorityTask;
 import models.Task.Task;
 import models.Scheduler.Scheduler;
 
-public abstract class Receip
+public class Receip
 {
     public static boolean Debug = true;
-    protected Type[] Stages = new Type[0];
+    
+    private Dictionary<Type, Type> Steps = new Hashtable<Type, Type>();
+    private Type firstStep;
+
+    public Receip(Type... steps)
+    throws InvalidParameterException
+    {
+        if (steps.length == 0)
+        {
+            throw new InvalidParameterException("No types were passed to receip!");
+        }
+        
+        firstStep = steps[0];
+        for (int i = 1; i < steps.length; i++)
+        {
+            Type sourceType = steps[i - 1];
+            Type destType = steps[i];
+
+            if (Steps.get(sourceType) != null)
+            {
+                throw new InvalidParameterException("Invalid Type order given: repeating items not allowed.");
+            }
+
+            if (Steps.get(destType) != null)
+            {
+                throw new InvalidParameterException("Invalid Type order given: possible cycle.");
+            }
+
+            Steps.put(sourceType, destType);
+        }
+    }
 
     public Task First(int priority)
-    throws OperationNotSupportedException
     {
-        if (Stages.length == 0)
-        {
-            throw new OperationNotSupportedException("No stages found. At least one is required");
-        }
-
         int id = Task.reserveIdRange(StepsCount());
         return priority != 0 ? 
-            new PriorityTask(Stages[0], priority, id) : 
-            new Task(Stages[0], id);
+            new PriorityTask(firstStep, priority, id) : 
+            new Task(firstStep, id);
     }
 
     /**
      * Takes a task and returns the next one to be done
      */
     public Task Next(Task task, int priority)
-    throws OperationNotSupportedException
     {
         if (task == null)
         {
             return First(priority);
         }
-        
-        if (Stages.length == 0)
+
+        Type nextType = Steps.get(task.Type);
+        if (nextType == null)
         {
-            throw new OperationNotSupportedException("No stages found. At least one is required");
+            return null;
         }
 
-        boolean takeNext = false;
-        for (Type stage : Stages)
+        if (priority != 0)
         {
-            if (takeNext)
-            {
-                if (priority != 0)
-                {
-                    return new PriorityTask(stage, task, priority);
-                }
-                return new Task(stage, task);
-            }
-
-            if (stage == task.Type)
-            {
-                // The task was producing the current product
-                // We now have to make the next one using this as input parameter
-                takeNext = true;
-            }
+            return new PriorityTask(nextType, task, priority);
         }
-        return null;
+        return new Task(nextType, task);
     }
 
-    public int StepsCount() { return Stages.length; }
+    public int StepsCount() { return 1 + Steps.size(); }
 
     public void SendToScheduler(Scheduler sched, int priority)
     {
