@@ -11,14 +11,14 @@ Produces a specified Type of product and to it can be assigned the [Tasks](#task
 It is implemented via a daemon thread that constantly executes the tasks that can be executed.
 
 ## `Scheduler`
-Can schedule both [Receips](#receip) and [Tasks](#task) to the [Stations](#station).
+Can schedule [Tasks](#task) to the [Stations](#station).
 
-For tasks, the scheduler holds the criteria on which is chosen the station to assign the task at.
+The scheduler holds the criteria on which is chosen the `Station` to assign the `Task` at.
 
 Many examples [below](#avaible-schedulers).
 
-## `Receip`
-Keeps track of how the final product is built. When a [Task](#task) finishes, the Receip retrieves its result and creates the new Task for the next step in the production line. 
+## `Recipe`
+Keeps track of how the final product is built. When a [Task](#task) finishes, the `Recipe` retrieves its result and creates the new `Task` for the next step in the production line. 
 
 ![General class diagram](./assets/class-diagram.svg)
 
@@ -31,11 +31,11 @@ javac -d . simulation/simple/Main.java
 java simulation.simple.Main
 ```
 
-One that tests the system with multiple receips and no priorities is found in the [`simulation/multiple_receips`](./simulation/multiple_receips/) folder.
+One that tests the system with multiple receips and no priorities is found in the [`simulation/multiple_recipes`](./simulation/multiple_recipes/) folder.
 
 ```bash
-javac -d . simulation/multiple_receips/Main.java
-java simulation.multiple_receips.Main
+javac -d . simulation/multiple_recipes/Main.java
+java simulation.multiple_recipes.Main
 ```
 
 A more sophisticated (different types of scheduling and introducing priorities) simulation is found in the [`simulation/priority`](./simulation/priority/) folder.

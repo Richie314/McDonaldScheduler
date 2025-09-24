@@ -13,23 +13,21 @@ extends IncrementalIdentifier
     public Object Input = null;
     public Object Result = null;
     public Type Type;
-    private Class<?> ResultClass;
 
-    public int ReceipDepht = 0;
+    public int RecipeDepht = 0;
 
     public Task(Type type, int id)
     {
         super(id);
 
         this.Type = type;
-        this.ResultClass = (Class<?>)type;
     }
     public Task(Type type, Task completedTask)
     {
         this(type, completedTask.getId() + 1);
 
         this.Input = completedTask.Result;
-        this.ReceipDepht = completedTask.ReceipDepht + 1;
+        this.RecipeDepht = completedTask.RecipeDepht + 1;
     }
 
     /**
@@ -49,7 +47,7 @@ extends IncrementalIdentifier
                 (new Object[0]) : 
                 new Object[] { Input };
 
-        Constructor<?> builder = ResultClass.getConstructor(constructor_parameters_types);
+        Constructor<?> builder = ((Class<?>)Type).getConstructor(constructor_parameters_types);
 
         Result = builder.newInstance(constructor_parameters);
     }
@@ -57,7 +55,7 @@ extends IncrementalIdentifier
     protected String getPadding()
     {
         String p = "";
-        for (int i = 0; i < this.ReceipDepht; i++)
+        for (int i = 0; i < this.RecipeDepht; i++)
         {
             p += "  ";
         }

@@ -10,7 +10,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import models.Receip.Receip;
+import models.Recipe;
 import models.Scheduler.Scheduler;
 import models.Scheduler.complex.RoundRobinScheduler;
 import models.Scheduler.ordered.BestFitScheduler;
@@ -22,7 +22,7 @@ import models.Station.Station;
 
 public class Main
 {
-    public static final int RECEIP_COUNT = 80;
+    public static final int RECIPE_COUNT = 80;
     private static void sim(Scheduler sched, int stationsPerType, long timeout)
     {
         List<Station> stations = new ArrayList<>();
@@ -44,48 +44,48 @@ public class Main
             sched.AddStation(station);
         }
 
-        Receip[] receips = new Receip[] {
-            new Receip(
+        Recipe[] recipes = new Recipe[] {
+            new Recipe(
             ProductA1.class, 
                 ProductA2.class, 
                 ProductA3.class,
                 ProductA4.class
             ),
-            new Receip(ProductA1.class, ProductA2.class),
-            new Receip(
+            new Recipe(ProductA1.class, ProductA2.class),
+            new Recipe(
             ProductB1.class,
                 ProductB2.class,
                 ProductB3.class
             ),
-            new Receip(ProductB1.class, ProductB2.class)
+            new Recipe(ProductB1.class, ProductB2.class)
         };
 
         List<Thread> threads = new ArrayList<>();
-        CountDownLatch latch = new CountDownLatch(3 * RECEIP_COUNT);
+        CountDownLatch latch = new CountDownLatch(3 * RECIPE_COUNT);
 
         Random rand = new Random(1);
 
-        for (int i = 0; i < RECEIP_COUNT; i++)
+        for (int i = 0; i < RECIPE_COUNT; i++)
         {
             // Low priority
             threads.add(new Thread(() -> {
-                Receip receip = receips[rand.nextInt(receips.length)];
-                receip.SendToScheduler(sched);
+                Recipe recipe = recipes[rand.nextInt(recipes.length)];
+                recipe.SendToScheduler(sched);
                 latch.countDown();
             }));
 
             // Incremental priority
             int priority = 1 + i;
             threads.add(new Thread(() -> {
-                Receip receip = receips[rand.nextInt(receips.length)];
-                receip.SendToScheduler(sched, priority);
+                Recipe recipe = recipes[rand.nextInt(recipes.length)];
+                recipe.SendToScheduler(sched, priority);
                 latch.countDown();
             }));
 
             // High priority
             threads.add(new Thread(() -> {
-                Receip receip = receips[rand.nextInt(receips.length)];
-                receip.SendToScheduler(sched, RECEIP_COUNT + 10);
+                Recipe recipe = recipes[rand.nextInt(recipes.length)];
+                recipe.SendToScheduler(sched, RECIPE_COUNT + 10);
                 latch.countDown();
             }));
         }
@@ -130,7 +130,7 @@ public class Main
 
     public static void main(String[] args)
     {
-        Receip.Debug = false;
+        Recipe.Debug = false;
         Station.Debug = false;
 
         System.out.println("Random scheduling...");

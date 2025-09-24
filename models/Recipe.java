@@ -1,4 +1,4 @@
-package models.Receip;
+package models;
 
 import java.lang.reflect.Type;
 import java.security.InvalidParameterException;
@@ -9,14 +9,14 @@ import models.Task.PriorityTask;
 import models.Task.Task;
 import models.Scheduler.Scheduler;
 
-public class Receip
+public class Recipe
 {
     public static boolean Debug = true;
     
     private Dictionary<Type, Type> Steps = new Hashtable<Type, Type>();
     private Type firstStep;
 
-    public Receip(Type... steps)
+    public Recipe(Type... steps)
     throws InvalidParameterException
     {
         if (steps.length == 0)

@@ -1,4 +1,4 @@
-package simulation.multiple_receips;
+package simulation.multiple_recipes;
 
 public class Product4
 {

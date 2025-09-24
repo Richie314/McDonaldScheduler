@@ -1,10 +1,10 @@
-package simulation.multiple_receips;
+package simulation.multiple_recipes;
 
 import java.util.function.Function;
 import java.util.List;
 import java.util.ArrayList;
 
-import models.Receip.Receip;
+import models.Recipe;
 import models.Scheduler.Scheduler;
 import models.Scheduler.greedy.FirstFreeScheduler;
 import models.Station.FIFOStation;
@@ -13,7 +13,7 @@ import models.Station.Station;
 public class Main
 {
     /**
-     * This is a 5 products, 2 receips simulation.
+     * This is a 5 products, 2 recipes simulation.
      * It is used only for testing if the methods work and not how efficient they are
      */
     public static void main(String[] args)
@@ -35,27 +35,27 @@ public class Main
         sched.AddStation(s4);
         sched.AddStation(s5);
 
-        Receip[] receips = {
-            new Receip(Product1.class),
-            new Receip(Product3.class),
-            new Receip(Product4.class),
-            new Receip(Product5.class),
+        Recipe[] receips = {
+            new Recipe(Product1.class),
+            new Recipe(Product3.class),
+            new Recipe(Product4.class),
+            new Recipe(Product5.class),
 
-            new Receip(Product1.class, Product2.class),
-            new Receip(Product3.class, Product4.class),
-            new Receip(Product4.class, Product5.class),
+            new Recipe(Product1.class, Product2.class),
+            new Recipe(Product3.class, Product4.class),
+            new Recipe(Product4.class, Product5.class),
             
-            new Receip(Product3.class, Product4.class, Product5.class),
+            new Recipe(Product3.class, Product4.class, Product5.class),
         };
 
-        Function<Integer, Runnable> schedule = receipsCount -> {
+        Function<Integer, Runnable> schedule = recipesCount -> {
             return () -> {
-                for (int i = 0; i < receipsCount; i++)
+                for (int i = 0; i < recipesCount; i++)
                 {
-                    Receip receip = receips[(int) Math.floor(Math.random() * receips.length)];
-                    receip.SendToScheduler(sched);
+                    Recipe recipe = receips[(int) Math.floor(Math.random() * receips.length)];
+                    recipe.SendToScheduler(sched);
                 }
-                System.out.println(receipsCount + " receips completed");
+                System.out.println(recipesCount + " recipes completed");
             };
         };
 

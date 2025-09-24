@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import models.Receip.Receip;
+import models.Recipe;
 import models.Scheduler.Scheduler;
 import models.Scheduler.complex.RoundRobinScheduler;
 import models.Scheduler.greedy.FirstFreeScheduler;
@@ -38,35 +38,35 @@ public class Main
             sched.AddStation(station);
         }
 
-        Receip longReceip = new Receip(
+        Recipe longRecipe = new Recipe(
             Product1.class, 
             Product2.class, 
             Product3.class,
             Product4.class
         );
 
-        int RECEIP_COUNT = 10;
+        int RECIPE_COUNT = 10;
         List<Thread> threads = new ArrayList<>();
-        CountDownLatch latch = new CountDownLatch(3 * RECEIP_COUNT);
+        CountDownLatch latch = new CountDownLatch(3 * RECIPE_COUNT);
 
-        for (int i = 0; i < RECEIP_COUNT; i++)
+        for (int i = 0; i < RECIPE_COUNT; i++)
         {
             // Low priority
             threads.add(new Thread(() -> {
-                longReceip.SendToScheduler(sched);
+                longRecipe.SendToScheduler(sched);
                 latch.countDown();
             }));
 
             // Incremental priority
             int priority = 1 + i;
             threads.add(new Thread(() -> {
-                longReceip.SendToScheduler(sched, priority);
+                longRecipe.SendToScheduler(sched, priority);
                 latch.countDown();
             }));
 
             // High priority
             threads.add(new Thread(() -> {
-                longReceip.SendToScheduler(sched, RECEIP_COUNT + 10);
+                longRecipe.SendToScheduler(sched, RECIPE_COUNT + 10);
                 latch.countDown();
             }));
         }
@@ -96,7 +96,7 @@ public class Main
 
     public static void main(String[] args)
     {
-        Receip.Debug = false;
+        Recipe.Debug = false;
         Station.Debug = false;
         
         System.out.println("Basic (greedy) scheduling...");

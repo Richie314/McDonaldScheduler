@@ -279,7 +279,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="wsfEjlb9J98t0C9QrTi9-0" value="&lt;font style=&quot;color: rgb(0, 0, 0);&quot;&gt;Receip&lt;/font&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#fad7ac;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;strokeColor=#b46504;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="wsfEjlb9J98t0C9QrTi9-0" value="&lt;font style=&quot;color: rgb(0, 0, 0);&quot;&gt;Recipe&lt;/font&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#fad7ac;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;strokeColor=#b46504;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
           <mxGeometry x="154" y="50" width="180" height="78" as="geometry" />
         </mxCell>
         <mxCell id="wsfEjlb9J98t0C9QrTi9-1" value="- steps: Dictionary&amp;lt;Type, Type&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="wsfEjlb9J98t0C9QrTi9-0">
@@ -303,7 +303,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="P_g3MKP5H2U4xfkUS-yB" name="Locking diagram">
-    <mxGraphModel dx="854" dy="528" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1191" dy="719" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -336,7 +336,7 @@
             <mxPoint x="300" y="475" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="WbJBTLJY588ToYsLHNjU-15" value="Receip" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+        <mxCell id="WbJBTLJY588ToYsLHNjU-15" value="Recipe" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="55" y="250" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="WbJBTLJY588ToYsLHNjU-16" value="Scheduler" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
