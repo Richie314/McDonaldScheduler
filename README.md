@@ -117,7 +117,7 @@ From multiple runs with different amounts of Recipes requested simultaneously, i
 
 $$ \frac{Recipes}{SPT} $$
 
-where $ SPT $ is the number of stations active per product **step**.
+where $SPT$ is the number of stations active per product **step**.
 
 The more this ratio increases, the more the difference between [complex](./models/Scheduler/complex/) schedulers and [Round Robin](#roundrobinscheduler) is low.
 
