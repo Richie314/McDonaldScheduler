@@ -106,3 +106,21 @@ At every schedule of a task, the station currently pointed by the index is chose
 # Locking and mutexes
 
 ![Locking](./assets/locking-diagram.svg)
+
+# Performance
+
+By using the [`simulation/big`](./simulation/big/) simulation, we can benchmark the various schedulers.
+
+[Round Robin](#roundrobinscheduler) is clearly the best performing of them all.
+
+From multiple runs with different amounts of Recipes requested simultaneously, it is deduced that the execution time, for each scheduler, depends on the ratio
+
+$$ \frac{Recipes}{SPT} $$
+
+where $ SPT $ is the number of stations active per product **step**.
+
+The more this ratio increases, the more the difference between [complex](./models/Scheduler/complex/) schedulers and [Round Robin](#roundrobinscheduler) is low.
+
+![spt-5](./assets/data/spt-5.svg)
+![spt-8](./assets/data/spt-8.svg)
+![spt-15](./assets/data/spt-15.svg)
