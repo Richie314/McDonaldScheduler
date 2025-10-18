@@ -59,40 +59,40 @@ This simulation was used to obtain the charts [below](#performance).
 # Avaible schedulers
 
 There are many possible schedulers provided, and can be found in the 
-[`models/scheduler`](./models/scheduler/) folder.
+[`models/Scheduler`](./models/Scheduler/) folder.
 
 ## Greedy schedulers
 
-### [FirstStationScheduler](./models/scheduler/greedy/FirstStationScheduler.java)
+### [FirstStationScheduler](./models/Scheduler/greedy/FirstStationScheduler.java)
 
 Assigns a Task to the first Station found that can handle the requested work. If that station is temporarily unavaible, the scheduler waits until it becomes ready to accept the requested job.
 
 This policy keeps the number of running stations to the least possible value, sacrificing production time. 
 
-### [MostFreeScheduler](./models/scheduler/greedy/MostFreeScheduler.java)
+### [MostFreeScheduler](./models/Scheduler/greedy/MostFreeScheduler.java)
 
 Assigns a Task to the, relatively to its capacity, least filled station. If needed, waits until the station becomes avaible.
 
-Comparison between station, to determine which is the least filled, works only if the station is an instance (or derived) of [`FIFOStation.java`](./models/station/FIFOStation.java).
+Comparison between station, to determine which is the least filled, works only if the station is an instance (or derived) of [`FIFOStation.java`](./models/Station/FIFOStation.java).
 
 ## Order-based schedulers
 
 These are schedulers that order the stations with a certain criteria and then try to assign the task to the first station they find (after the ordering) that can handle the requested job in this moment. No waiting for a _chosen_ station to free itself.
 
-### [RandomScheduler](./models/scheduler/ordered/RandomScheduler.java)
+### [RandomScheduler](./models/Scheduler/ordered/RandomScheduler.java)
 
 Shuffles the avaible stations list instead of ordering it.
 
-### [FirstFitScheduler](./models/scheduler/ordered/FirstFitScheduler.java)
+### [FirstFitScheduler](./models/Scheduler/ordered/FirstFitScheduler.java)
 
 Does not order at all. The first station that can handle the task at this moment gets chosen.
 
-### [BestFitScheduler](./models/scheduler/ordered/BestFitScheduler.java)
+### [BestFitScheduler](./models/Scheduler/ordered/BestFitScheduler.java)
 
 Orders the stations based on the current number of tasks they have in their queues.
 The "least free" is chosen.
 
-### [WorstFitScheduler](./models/scheduler/ordered/WorstFitScheduler.java)
+### [WorstFitScheduler](./models/Scheduler/ordered/WorstFitScheduler.java)
 
 Orders the stations based on the current number of tasks they have in their queues.
 The "most free" is chosen.
@@ -101,7 +101,7 @@ The "most free" is chosen.
 
 More sophisticated, rely on additional structures.
 
-### [RoundRobinScheduler](./models/scheduler/complex/RoundRobinScheduler.java)
+### [RoundRobinScheduler](./models/Scheduler/complex/RoundRobinScheduler.java)
 
 Keeps the stations in groups (based on the produced type) and an index for each group.
 
