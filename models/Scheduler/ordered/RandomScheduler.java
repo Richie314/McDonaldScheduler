@@ -1,14 +1,12 @@
 package models.Scheduler.ordered;
 
-import java.util.Comparator;
-
 import models.Station.Station;
 
 public class RandomScheduler
 extends OrderedScheduler {
-    
-    public Comparator<Station> getComparator()
+
+    public int stationWeight(Station s)
     {
-        return Comparator.comparingInt(station -> (int)(Math.random() * 10 * 1000));
+        return (int)(Math.random() * 1000000);
     }
 }

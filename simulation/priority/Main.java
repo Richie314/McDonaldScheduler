@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 import models.Recipe;
 import models.Scheduler.Scheduler;
 import models.Scheduler.complex.RoundRobinScheduler;
-import models.Scheduler.greedy.FirstFreeScheduler;
+import models.Scheduler.greedy.FirstStationScheduler;
 import models.Scheduler.greedy.MostFreeScheduler;
 import models.Scheduler.ordered.BestFitScheduler;
 import models.Scheduler.ordered.FirstFitScheduler;
@@ -101,7 +101,7 @@ public class Main
         
         System.out.println("Basic (greedy) scheduling...");
         System.out.println("--------------------------------------");
-        sim(new FirstFreeScheduler(), 3, 0);
+        sim(new FirstStationScheduler(), 3, 0);
         System.out.println();
         
         System.out.println("Simple (greedy) scheduling...");

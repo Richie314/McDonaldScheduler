@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import models.Recipe;
 import models.Scheduler.Scheduler;
-import models.Scheduler.greedy.FirstFreeScheduler;
+import models.Scheduler.greedy.FirstStationScheduler;
 import models.Station.FIFOStation;
 import models.Station.Station;
 
@@ -28,7 +28,7 @@ public class Main
         Station s4 = new FIFOStation(Product4.class, 1);
         Station s5 = new FIFOStation(Product5.class, 1);
 
-        Scheduler sched = new FirstFreeScheduler();
+        Scheduler sched = new FirstStationScheduler();
         sched.AddStation(s1);
         sched.AddStation(s2);
         sched.AddStation(s3);

@@ -14,7 +14,7 @@ extends IncrementalIdentifier
     public Object Result = null;
     public Type Type;
 
-    public int RecipeDepht = 0;
+    public int RecipeDepth = 0;
 
     public Task(Type type, int id)
     {
@@ -27,7 +27,7 @@ extends IncrementalIdentifier
         this(type, completedTask.getId() + 1);
 
         this.Input = completedTask.Result;
-        this.RecipeDepht = completedTask.RecipeDepht + 1;
+        this.RecipeDepth = completedTask.RecipeDepth + 1;
     }
 
     /**
@@ -55,7 +55,7 @@ extends IncrementalIdentifier
     protected String getPadding()
     {
         String p = "";
-        for (int i = 0; i < this.RecipeDepht; i++)
+        for (int i = 0; i < this.RecipeDepth; i++)
         {
             p += "  ";
         }

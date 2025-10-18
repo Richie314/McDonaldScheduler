@@ -4,9 +4,10 @@ import models.Scheduler.Scheduler;
 import models.Task.Task;
 
 /**
- * A scheduer that enques the item in the first free station
+ * A scheduer that enques the item in the first station found.
+ * Waits for it to free itself if needed.
  */
-public class FirstFreeScheduler 
+public class FirstStationScheduler 
 extends Scheduler
 {
     public void Schedule(Task task)

@@ -1,15 +1,12 @@
 package models.Scheduler.ordered;
 
-import java.util.Comparator;
-
 import models.Station.Station;
 
 public class BestFitScheduler
 extends OrderedScheduler {
-
-    public Comparator<Station> getComparator()
+    
+    public int stationWeight(Station s)
     {
-        // sorts in descending order by TaskCount()
-        return Comparator.comparingInt(station -> -station.TaskCount());
+        return -s.TaskCount();
     }
 }

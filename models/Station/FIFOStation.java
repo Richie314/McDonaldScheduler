@@ -118,12 +118,12 @@ extends Station
     {
         synchronized (queue)
         {
-            return queue.size();
+            return queue.size() + tasksInExecution();
         }
     }
 
     public double fillingStatus()
     {
-        return TaskCount() / (double)capacity;
+        return TaskCount() / (double)(capacity + 1);
     }
 }

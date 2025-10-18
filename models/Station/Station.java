@@ -3,6 +3,7 @@ package models.Station;
 import java.lang.reflect.Type;
 import java.lang.Thread;
 import java.security.InvalidParameterException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import models.Task.Task;
@@ -13,6 +14,12 @@ implements Comparable<Station>
 {
     public Type producedProduct;
     private final AtomicInteger completedTasks;
+
+    private AtomicBoolean isExecuting = new AtomicBoolean(false);
+    protected int tasksInExecution()
+    {
+        return isExecuting.get() ? 1 : 0;
+    }
 
     public int completedTasks()
     {
@@ -48,6 +55,13 @@ implements Comparable<Station>
      */
     public abstract int TaskCount();
 
+    /**
+     * Returns the number of tasks the station is currently handling 
+     * over the maximum nuber the station can handle
+     * @return an int with the task count
+     */
+    public abstract double fillingStatus();
+
     public void run()
     {
         if (Debug)
@@ -67,7 +81,11 @@ implements Comparable<Station>
                     break;
                 
                 synchronized (task) {
+
+                    isExecuting.set(true);
                     task.DoWork();
+                    isExecuting.set(false);
+
                     this.completedTasks.getAndIncrement();
                     task.notify(); // Wake the task.wait() inside Receip class
                 }

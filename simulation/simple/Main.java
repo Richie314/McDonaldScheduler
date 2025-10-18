@@ -2,7 +2,7 @@ package simulation.simple;
 
 import models.Recipe;
 import models.Scheduler.Scheduler;
-import models.Scheduler.greedy.FirstFreeScheduler;
+import models.Scheduler.greedy.FirstStationScheduler;
 import models.Station.FIFOStation;
 import models.Station.Station;
 
@@ -24,7 +24,7 @@ public class Main
         Station s3 = new FIFOStation(Product2.class, 5);
 
         // This is the scheduler we'll use to route Tasks to Stations
-        Scheduler sched = new FirstFreeScheduler();
+        Scheduler sched = new FirstStationScheduler();
         sched.AddStation(s1);
         sched.AddStation(s2);
         sched.AddStation(s3);
